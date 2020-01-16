@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"
+        integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm"
+        crossorigin="anonymous"></script>
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="./CSS/index.css">
+</head>
+
+<body>
+    <main>
+        <section class="bg-dark">
+            <form class="login-form">
+                <div class="form-group row">
+                    <label for="InputEmail1" class="col-sm-2 col-form-label text-light">Email address</label>
+                    <input type="email" class="form-control col-sm-10" id="InputEmail1" aria-describedby="emailHelp"
+                        placeholder="Enter email">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small> -->
+                </div>
+                <div class="form-group row">
+                    <label for="InputPassword1" class="col-sm-2 col-form-label text-light">Password</label>
+                    <input type="password" class="form-control col-sm-10" id="InputPassword1" placeholder="Password">
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="Check1">
+                    <label class="form-check-label text-light" for="Check1">Keep Me Logged In</label>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <div class="row">
+                    <div class="col-sm-3 offset-sm-3">
+                        <button type="button" class="btn btn-link">Forgot Username?</button>
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="button" class="btn btn-link">Forgot Password?</button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-light"><a href="register.html">Sign Up</a></button>
+                <br>
+                <button type="button" class="btn btn-warning"><a href="main.html">Login As A Guest</a></button>
+            </form>
+        </section>
+    </main>
+</body>
+
+</html>

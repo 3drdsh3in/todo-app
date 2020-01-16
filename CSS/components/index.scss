@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.bg-dark {
+    padding: 3.5rem 0;
+}
+
+.login-form {
+    width: 80%;
+    margin: 5rem auto;
+    text-align: center;
+}
+
+a, a:hover {
+    color: inherit;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+.btn {
+    display: block;
+    margin: 0 auto;
+}
+
+.btn-link,
+.btn-link:hover {
+    color: white;
+}
