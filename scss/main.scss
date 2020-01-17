@@ -1,0 +1,82 @@
+@import "variables.scss";
+
+// Required
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+// Optional
+@import "../node_modules/bootstrap/scss/reboot";
+@import "../node_modules/bootstrap/scss/type";
+@import "../node_modules/bootstrap/scss/images";
+@import "../node_modules/bootstrap/scss/code";
+@import "../node_modules/bootstrap/scss/grid";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    // overflow-x: hidden;
+}
+// Navbar positioning is adequate: MOBILE
+.form-control {
+    width: auto;
+}
+
+.navbar {
+    padding: 0;
+}
+.form-inline {
+    margin: 0 1rem;
+}
+.navbar-toggler,
+.nav-item {
+    margin: 0 .5rem;
+    height: 40px;
+    align-self: center;
+}
+.nav-item {
+    align-self: start;
+}
+.nav-general {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+.navbar-nav {
+    width: 12rem;
+}
+.nav-item {
+    background-color: inherit;
+}
+.dropdown-item {
+    padding: .25rem .5rem;
+}
+
+@media screen and (max-width: 400px) {
+    .form-inline {
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+    }
+    .form-control {
+        width: 100%;
+    }
+    .btn-outline-success {
+        margin: 0 0;
+    }
+}
+@media screen and (max-width: 576px) {
+    .navbar-nav {
+        width: 40vw;
+    }
+}
+@media screen and (min-width: 992px) {
+    .navbar-collapse {
+        justify-content: flex-end;
+        height: 50px;
+    }
+    .navbar-nav {
+        height: inherit;
+    }
+}

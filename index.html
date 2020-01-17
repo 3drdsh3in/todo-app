@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login Form</title>
 
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- NPM Bootstrap modules -->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- jQuery CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="./CSS/index.css">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
 
 <body>
@@ -46,12 +46,14 @@
                         <button type="button" class="btn btn-link">Forgot Password?</button>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-2">
-                        <button type="button" class="btn btn-light"><a href="register.html">Sign Up</a></button>
+                <div class="row justify-content-center no-gutters">
+                    <div class="col-sm-3">
+                        <a href="register.html"><button type="button" class="btn btn-light btn-sm">Sign Up</button></a>
                     </div>
                     <div class="col-sm-3">
-                        <button type="button" class="btn btn-warning"><a href="main.html">Login As A Guest</a></button>
+                        <a href="app.html"><button type="button" class="btn btn-warning btn-sm">Login As A
+                                Guest</button></a>
+
                     </div>
                 </div>
             </form>
