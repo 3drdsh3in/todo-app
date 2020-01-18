@@ -1,16 +1,6 @@
 @import "variables.scss";
 
-// Required
-@import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootstrap/scss/variables";
-@import "../node_modules/bootstrap/scss/mixins";
-
-// Optional
-@import "../node_modules/bootstrap/scss/reboot";
-@import "../node_modules/bootstrap/scss/type";
-@import "../node_modules/bootstrap/scss/images";
-@import "../node_modules/bootstrap/scss/code";
-@import "../node_modules/bootstrap/scss/grid";
+// Custom Bootstrap SCSS is prompted below. {main.css folder link follows the bootstrap CDN}
 
 * {
     padding: 0;
@@ -55,7 +45,7 @@
 }
 
 .ul-list-styles {
-    box-shadow: 0px 10px 11px -9px rgba(0, 0, 0, .2);
+    // box-shadow: 0px 10px 11px -9px rgba(0, 0, 0, .2);
 }
 
 @media screen and (max-width: 400px) {
@@ -75,24 +65,6 @@
         width: 100vw;
     }
 }
-// @media screen and (max-width: 992px) {
-//     // .collapsing {
-//     //     position: relative;
-//     //     width: 0;
-//     //     overflow: hidden;
-//     //     height: auto;
-//     // }
-//     .show {
-//         // @include transition($transition-collapse);
-//         transition: transform .35s 0s;
-//         transform: translateX($app-sidebar-width);
-//     }
-//     .navbar-nav {
-//         // translateX(calc($app-sidebar-width * -1));
-//         transition: transform .35s 0s;
-//         transform: translateX(0px);
-//     }
-// }
 @media screen and (min-width: 992px) {
     .navbar-collapse {
         justify-content: flex-end;

@@ -8,10 +8,10 @@
     <title>To-Do Application</title>
     <!-- jQuery CDN (Must declare before Bootstrap modules) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- NPM Bootstrap modules -->
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Bootstrap, PopperJS & Compiled JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <!-- Stylesheet -->
     <link rel="stylesheet" href="./css/main.css">
     <!-- FontAwesome -->
@@ -85,6 +85,10 @@
                                 <div class="form-group">
                                     <label for="task-location">Task Location</label>
                                     <input type="text" class="form-control" id="task-date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="task-time">Task Location</label>
+                                    <input type="time" class="form-control" id="task-time">
                                 </div>
                                 <!-- GOOGLE MAPS: -->
                                 <div id="map"></div>
