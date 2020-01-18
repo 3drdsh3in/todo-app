@@ -16,10 +16,7 @@
     "url": "https://github.com/3drdsh3in/todo-app/issues"
   },
   "homepage": "https://github.com/3drdsh3in/todo-app#readme",
-  "dependencies": {
-    "bootstrap": "^4.4.1",
-    "popper.js": "^1.16.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "keywords": []
 }
