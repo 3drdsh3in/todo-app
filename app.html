@@ -16,12 +16,15 @@
     <link rel="stylesheet" href="./css/main.css">
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/c1c76339d9.js" crossorigin="anonymous"></script>
+    <!-- Google Maps API -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOPv3jDR5L976vXlMPFKneDqGq5mJsBf4&callback=initMap"
+        type="text/javascript"></script>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-        <div class="nav-general bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="nav-general">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -33,27 +36,95 @@
             </form>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav bg-light">
+            <ul class="navbar-nav ul-list-styles">
                 <li class="nav-item active">
                     <!-- <span class="sr-only">(current)</span> -->
-                    <a class="nav-link" href="#"><i class="fas fa-plus-square"></i> New
+                    <a class="nav-link" href="#" data-target="#exampleModal" data-toggle="modal"><i
+                            class="fas fa-plus-square"></i> New Task
                     </a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
-                        All Lists
+                        Task Lists
                     </a>
-                    <div class="dropdown-menu dropdown-menu-left dropdown-menu-right"
-                        aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="#">All Tasks</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">List 1</a>
+                        <a class="dropdown-item" href="#">List 2</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><i class="fas fa-plus-square"></i> New List</a>
                     </div>
                 </li>
             </ul>
         </div>
     </nav>
+    <main>
+        <section>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="task-name">Task Name</label>
+                                    <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp">
+                                </div>
+                                <div class="form-group">
+                                    <label for="task-date">Task Date</label>
+                                    <input type="date" class="form-control" id="task-date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="task-location">Task Location</label>
+                                    <input type="text" class="form-control" id="task-date">
+                                </div>
+                                <!-- GOOGLE MAPS: -->
+                                <div id="map"></div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-success" id="addTaskButton">Add Task</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="schedule-section" id="daily-schedule">
+            <div class="sample-schedule">
+
+            </div>
+        </section>
+    </main>
+    <style>
+        /* Set the size of the div element that contains the map */
+        #map {
+            height: 400px;
+            /* The height is 400 pixels */
+            width: 100%;
+            /* The width is the width of the web page */
+        }
+    </style>
+    <script>
+        // Initialize and add the map
+        function initMap() {
+            // The location of Uluru
+            var uluru = { lat: -25.344, lng: 131.036 };
+            // The map, centered at Uluru
+            var map = new google.maps.Map(
+                document.getElementById('map'), { zoom: 4, center: uluru });
+            // The marker, positioned at Uluru
+            var marker = new google.maps.Marker({ position: uluru, map: map });
+        }
+    </script>
 </body>
 
 </html>
