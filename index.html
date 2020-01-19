@@ -12,14 +12,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="./css/main.css">
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/c1c76339d9.js" crossorigin="anonymous"></script>
-    <!-- Google Maps API -->
-    <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOPv3jDR5L976vXlMPFKneDqGq5mJsBf4&callback=initMap"
-        type="text/javascript"></script>
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 
 <body>
@@ -67,31 +62,35 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Add A Task</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form id="modal-form" action="/search" method="GET">
                                 <div class="form-group">
                                     <label for="task-name">Task Name</label>
-                                    <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp">
+                                    <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp"
+                                        placeholder="I want to...">
                                 </div>
                                 <div class="form-group">
                                     <label for="task-date">Task Date</label>
-                                    <input type="date" class="form-control" id="task-date">
+                                    <input type="date" class="form-control" id="task-date" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="task-time">Task Time</label>
+                                    <input type="time" class="form-control" id="task-time" value="">
                                 </div>
                                 <div class="form-group">
                                     <label for="task-location">Task Location</label>
-                                    <input type="text" class="form-control" id="task-date">
+                                    <!-- Search Location Input -->
+                                    <input type="text" class="form-control index-search controls" id="task-location"
+                                        value="">
                                 </div>
-                                <div class="form-group">
-                                    <label for="task-time">Task Location</label>
-                                    <input type="time" class="form-control" id="task-time">
-                                </div>
+                                <button type="button" class="btn btn-primary" id="searchLocationButton">Search</button>
                                 <!-- GOOGLE MAPS: -->
-                                <div id="map"></div>
+                                <div id='map'></div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -108,27 +107,100 @@
             </div>
         </section>
     </main>
-    <style>
-        /* Set the size of the div element that contains the map */
-        #map {
-            height: 400px;
-            /* The height is 400 pixels */
-            width: 100%;
-            /* The width is the width of the web page */
-        }
-    </style>
-    <script>
-        // Initialize and add the map
-        function initMap() {
-            // The location of Uluru
-            var uluru = { lat: -25.344, lng: 131.036 };
-            // The map, centered at Uluru
-            var map = new google.maps.Map(
-                document.getElementById('map'), { zoom: 4, center: uluru });
-            // The marker, positioned at Uluru
-            var marker = new google.maps.Marker({ position: uluru, map: map });
+    <!-- Script -->
+    <script src="js/script.js" defer async>
+    </script>
+    <script defer async>
+        // const searchLocationBarRef = document.getElementById('task-location');
+        const searchform = document.getElementById('modal-form');
+        const searchLocationButtonRef = document.getElementById('searchLocationButton');
+        const addTaskButtonRef = document.getElementById('addTaskButton');
+        const APIKEY = "AIzaSyA2n7hH6W6cHvZdRX2kBmL0b21ev6WWjag";
+
+        function initGoogleAPI() {
+
+            var input = document.getElementById('task-location');
+
+            //Reset the input box on click
+            input.addEventListener('click', function () {
+                input.value = "";
+            });
+
+            // Initialize Map to be centered at Melbourne Australia
+            var melbourne = { lat: -33.8559799094, lng: 151.20666584 };
+            var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: melbourne });
+
+            // ------------------------------------------------------
+
+            searchLocationButtonRef.addEventListener("click", () => {
+                var melbourne = { lat: -33.8559799094, lng: 151.20666584 };
+                var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: melbourne });
+
+                var request = {
+                    // Use Geolocation API to get the current locationBias to make searches more local.
+                    // locationBias: '',
+                    query: document.getElementById('task-location').value,
+                    fields: ['photos', 'formatted_address', 'name', 'rating', 'opening_hours', 'geometry']
+                };
+                var callbackCount = 0;
+                function callback(results, status) {
+                    if (status == google.maps.places.PlacesServiceStatus.OK) {
+                        for (let i = 0; i < results.length; i++) {
+                            let placeLoc = results[i].geometry.location;
+                            addMarker(placeLoc);
+                            currentMap.setCenter(results[0].geometry.location);
+                        }
+                    }
+                    callbackCount++;
+                };
+                let service = new google.maps.places.PlacesService(currentMap);
+                service.findPlaceFromQuery(request, callback);
+
+                // Map adding methods
+                function addMarker(location) {
+                    // Create new Marker
+                    let marker = new google.maps.Marker({
+                        position: { lat: location.lat(), lng: location.lng() },
+                        map: currentMap,
+                        title: 'Hello World'
+                    });
+                    // !!ISSUE LINE!!:
+                    // this.markers.push(marker);
+                }
+                // Set all markers on map to say hello world?
+                function setMapOnAll(map) {
+                    for (var i = 0; i < this.markers.length; i++) {
+                        var marker = new google.maps.Marker({
+                            position: this.markers[i].getPosition(),
+                            map: this.map,
+                            title: 'Hello World!'
+                        });
+                    }
+                }
+            })
+
+            // ------------------------------------------------------
+            //Add listener to search
+            // searchLocationButtonRef.addEventListener("click", function () {
+
+            //     var newlatlong = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
+            //     map.setCenter(newlatlong);
+            //     marker.setPosition(newlatlong);
+            //     map.setZoom(12);
+            //     // --------------------------------------------------
+            // });
         }
     </script>
+    <!-- Google Maps API, had to add libraries=places to get places getters/setters -->
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBjdZtN5soANx6mq3COvinOR3LSWJaHjgU&callback=initGoogleAPI&libraries=places"
+        type="text/javascript" defer>
+        </script>
+
+
+    <!-- &callback=searchLocation -->
+    <!-- YOUR KEY: AIzaSyBjdZtN5soANx6mq3COvinOR3LSWJaHjgU -->
+    <!-- FREE KEY: AIzaSyA2n7hH6W6cHvZdRX2kBmL0b21ev6WWjag -->
 </body>
 
 </html>

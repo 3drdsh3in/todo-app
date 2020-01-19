@@ -9,7 +9,7 @@
     // overflow-x: hidden;
 }
 // Navbar positioning is adequate: MOBILE
-.form-control {
+.form-inline .form-control {
     width: auto;
 }
 
@@ -44,8 +44,14 @@
     padding: .25rem .5rem;
 }
 
-.ul-list-styles {
-    // box-shadow: 0px 10px 11px -9px rgba(0, 0, 0, .2);
+// Google Maps API:
+/* Set the size of the div element that contains the map */
+#map {
+    margin: 10px 0px;
+    height: 400px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
 }
 
 @media screen and (max-width: 400px) {
@@ -53,7 +59,7 @@
         flex-flow: row nowrap;
         justify-content: flex-end;
     }
-    .form-control {
+    .form-inline .form-control {
         width: 100%;
     }
     .btn-outline-success {
@@ -76,4 +82,8 @@
     .ul-list-styles {
         box-shadow: none;
     }
+}
+
+.task-location {
+    z-index: 1000;
 }
