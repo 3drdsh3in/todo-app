@@ -9,7 +9,7 @@ function newDefaultDate() {
 
     // Time: 6 Hours in the future:
     displayHour = dateObject.getHours() + 7;
-    if (displayHour > 24) {
+    if (displayHour > 23) {
         displayHour = displayHour - 24;
         dispTmr = true;
     }
@@ -60,5 +60,25 @@ function newDefaultDate() {
     }
 }
 
-newDefaultDate();
-console.log('yeet');
+// Initialize Page with Default Date/Time Values Whenever New Task Needs to be added.
+let newItemButtonRef = document.getElementById('newItemButton');
+newItemButtonRef.addEventListener('click', newDefaultDate);
+
+document.getElementById('newListField').onkeypress = function (myEvent) {
+    listSectionRef = document.getElementById('listSection');
+    if (event.which == 13 || event.keyCode == 13) {
+        if (document.getElementById('secondDropDivider') == null) {
+            newDivider = document.createElement('div');
+            newDivider.classList.add('dropdown-divider');
+            newDivider.setAttribute('id', 'secondDropDivider');
+            document.getElementById('listSection').appendChild(newDivider);
+        }
+        let newListName = document.getElementById('newListField').value;
+        let newListItem = document.createElement('a');
+        newListItem.innerHTML = newListName;
+        newListItem.classList.add('dropdown-item')
+        newListItem.href = '#';
+        listSectionRef.appendChild(newListItem);
+        document.getElementById('newListField').value = "";
+    }
+};

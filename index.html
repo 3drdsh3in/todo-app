@@ -18,6 +18,17 @@
 </head>
 
 <body>
+    <!-- <div class="bg-light border-right" id="sidebar-wrapper">
+
+        <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+        </div>
+    </div> -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="nav-general">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -34,7 +45,7 @@
             <ul class="navbar-nav ul-list-styles">
                 <li class="nav-item active">
                     <!-- <span class="sr-only">(current)</span> -->
-                    <a class="nav-link" href="#" data-target="#exampleModal" data-toggle="modal"><i
+                    <a class="nav-link" href="#" data-target="#exampleModal" data-toggle="modal" id="newItemButton"><i
                             class="fas fa-plus-square"></i> New Task
                     </a>
                 </li>
@@ -45,11 +56,14 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="#">All Tasks</a>
+                        <div id='listSection'>
+                            <!-- <div class="dropdown-divider" id='secondDropDivider'></div> -->
+                        </div>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">List 1</a>
-                        <a class="dropdown-item" href="#">List 2</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="fas fa-plus-square"></i> New List</a>
+
+                        <!-- <a class="dropdown-item" href="#"><i class="fas fa-plus-square"></i> New List</a> -->
+                        <input class="dropdown-item" type="text" name="newList" id="newListField"
+                            placeholder="+ New List" value="">
                     </div>
                 </li>
             </ul>
@@ -72,7 +86,7 @@
                                 <div class="form-group">
                                     <label for="task-name">Task Name</label>
                                     <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp"
-                                        placeholder="I want to...">
+                                        placeholder="I Want To...">
                                 </div>
                                 <div class="form-group">
                                     <label for="task-date">Task Date</label>
@@ -80,17 +94,22 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="task-time">Task Time</label>
-                                    <input type="time" class="form-control" id="task-time" value="">
+                                    <input type="time" class="form-control timepicker" id="task-time" value="">
                                 </div>
                                 <div class="form-group">
                                     <label for="task-location">Task Location</label>
                                     <!-- Search Location Input -->
                                     <input type="text" class="form-control index-search controls" id="task-location"
-                                        value="">
+                                        value="" placeholder="San Fransisco, California">
                                 </div>
                                 <button type="button" class="btn btn-primary" id="searchLocationButton">Search</button>
                                 <!-- GOOGLE MAPS: -->
                                 <div id='map'></div>
+                                <div id='coords'>
+                                    <div id='locationInfo'></div>
+                                    <div id='startLat'></div>
+                                    <div id='startLon'></div>
+                                </div>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -119,6 +138,45 @@
 
         function initGoogleAPI() {
 
+            let userPosition;
+
+            // Orginally use window.onload = function () {} Upon Page Loading, might have blown too many requests :).
+            document.getElementById('newItemButton').addEventListener('click', function () {
+                // Possible Geolocation API call No.1: When Page Immediately Loads
+                var startPos;
+                var geoSuccess = function (position) {
+                    startPos = position;
+                    // Initialize Map to be centered at Melbourne Australia
+                    try {
+                        userPosition = { lat: startPos.coords.latitude, lng: startPos.coords.longitude }
+                        var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 16, center: userPosition, gestureHandling: 'cooperative', mapTypeId: google.maps.MapTypeId.ROADMAP });
+                        let marker = new google.maps.Marker({
+                            position: userPosition,
+                            map: currentMap,
+                            icon: "https://img.icons8.com/ultraviolet/40/000000/marker.png"
+                        });
+                        // Set an info window description to the inputted description value.
+                        var infowindow = new google.maps.InfoWindow({
+                            content: 'You'
+                        });
+                        // Whenever the location is clicked it will open the infowindow.
+                        marker.addListener('click', function () {
+                            infowindow.open(map, marker);
+                        })
+                    }
+                    catch (err) {
+                        var melbourne = { lat: -37.814, lng: 144.963 };
+                        var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: melbourne, gestureHandling: 'cooperative', mapTypeId: google.maps.MapTypeId.ROADMAP });
+                    }
+
+                    document.getElementById('locationInfo').innerHTML = 'Your Current Location:'
+                    document.getElementById('startLat').innerHTML = 'Latitude: ' + startPos.coords.latitude;
+                    document.getElementById('startLon').innerHTML = 'Longitude: ' + startPos.coords.longitude;
+                };
+                // Request
+                navigator.geolocation.getCurrentPosition(geoSuccess);
+            });
+
             var input = document.getElementById('task-location');
 
             //Reset the input box on click
@@ -126,69 +184,72 @@
                 input.value = "";
             });
 
-            // Initialize Map to be centered at Melbourne Australia
-            var melbourne = { lat: -33.8559799094, lng: 151.20666584 };
-            var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: melbourne });
-
             // ------------------------------------------------------
-
             searchLocationButtonRef.addEventListener("click", () => {
-                var melbourne = { lat: -33.8559799094, lng: 151.20666584 };
-                var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: melbourne });
+                // Geolocation API call No.2: When Search Button Is Clicked.
+                var melbourne = { lat: -37.814, lng: 144.963 };
+                var currentMap = new google.maps.Map(document.getElementById('map'), { zoom: 12, center: melbourne, gestureHandling: 'cooperative' });
 
-                var request = {
-                    // Use Geolocation API to get the current locationBias to make searches more local.
-                    // locationBias: '',
-                    query: document.getElementById('task-location').value,
-                    fields: ['photos', 'formatted_address', 'name', 'rating', 'opening_hours', 'geometry']
-                };
-                var callbackCount = 0;
-                function callback(results, status) {
-                    if (status == google.maps.places.PlacesServiceStatus.OK) {
-                        for (let i = 0; i < results.length; i++) {
-                            let placeLoc = results[i].geometry.location;
-                            addMarker(placeLoc);
-                            currentMap.setCenter(results[0].geometry.location);
+                var startPos;
+                var geoSuccess = function (position) {
+                    startPos = position;
+                    userLat = startPos.coords.latitude;
+                    userLng = startPos.coords.longitude;
+                    document.getElementById('locationInfo').innerHTML = 'Your Current Location:'
+                    document.getElementById('startLat').innerHTML = 'Latitude: ' + startPos.coords.latitude;
+                    document.getElementById('startLon').innerHTML = 'Longitude: ' + startPos.coords.longitude;
+
+                    var request = {
+                        // Use Geolocation API to get the current locationBias to make searches more local.
+                        locationBias: { lat: userLat, lng: userLng },
+                        query: document.getElementById('task-location').value,
+                        fields: ['photos', 'formatted_address', 'name', 'rating', 'opening_hours', 'geometry']
+                    };
+                    var callbackCount = 0;
+                    function callback(results, status) {
+                        if (status == google.maps.places.PlacesServiceStatus.OK) {
+                            for (let i = 0; i < results.length; i++) {
+                                let placeLoc = results[i].geometry.location;
+                                let resultInfo = results[i].formatted_address
+                                addMarker(placeLoc, resultInfo);
+                                currentMap.setCenter(results[0].geometry.location);
+                            }
+                            if (userPosition != null) {
+                                let marker = new google.maps.Marker({
+                                    position: userPosition,
+                                    map: currentMap,
+                                    icon: "https://img.icons8.com/ultraviolet/40/000000/marker.png"
+                                });
+                            }
                         }
-                    }
-                    callbackCount++;
-                };
-                let service = new google.maps.places.PlacesService(currentMap);
-                service.findPlaceFromQuery(request, callback);
+                        callbackCount++;
+                    };
+                    let service = new google.maps.places.PlacesService(currentMap);
+                    service.findPlaceFromQuery(request, callback);
 
-                // Map adding methods
-                function addMarker(location) {
-                    // Create new Marker
-                    let marker = new google.maps.Marker({
-                        position: { lat: location.lat(), lng: location.lng() },
-                        map: currentMap,
-                        title: 'Hello World'
-                    });
-                    // !!ISSUE LINE!!:
-                    // this.markers.push(marker);
-                }
-                // Set all markers on map to say hello world?
-                function setMapOnAll(map) {
-                    for (var i = 0; i < this.markers.length; i++) {
-                        var marker = new google.maps.Marker({
-                            position: this.markers[i].getPosition(),
-                            map: this.map,
-                            title: 'Hello World!'
+                    // Map adding methods
+                    function addMarker(location, description) {
+                        // Create new Marker
+                        let marker = new google.maps.Marker({
+                            position: { lat: location.lat(), lng: location.lng() },
+                            map: currentMap,
+                            title: 'Hello World'
                         });
+                        // Set an info window description to the inputted description value.
+                        var infowindow = new google.maps.InfoWindow({
+                            content: description
+                        });
+                        // Whenever the location is clicked it will open the infowindow.
+                        marker.addListener('click', function () {
+                            infowindow.open(map, marker);
+                        })
                     }
-                }
-            })
-
+                };
+                // Request
+                navigator.geolocation.getCurrentPosition(geoSuccess)
+            }
+            )
             // ------------------------------------------------------
-            //Add listener to search
-            // searchLocationButtonRef.addEventListener("click", function () {
-
-            //     var newlatlong = new google.maps.LatLng(place.geometry.location.lat(), place.geometry.location.lng());
-            //     map.setCenter(newlatlong);
-            //     marker.setPosition(newlatlong);
-            //     map.setZoom(12);
-            //     // --------------------------------------------------
-            // });
         }
     </script>
     <!-- Google Maps API, had to add libraries=places to get places getters/setters -->
