@@ -9,6 +9,10 @@
     // overflow-x: hidden;
 }
 // Navbar positioning is adequate: MOBILE
+html,
+body {
+    // color: #0081ff;
+}
 .form-inline .form-control {
     width: auto;
 }
@@ -16,17 +20,24 @@
 .navbar {
     padding: 0;
 }
+.navbar-collapse {
+    padding: 1rem 0rem;
+}
 .form-inline {
     margin: 0 1rem;
 }
 .navbar-toggler,
 .nav-item {
     margin: 0 .5rem;
-    height: 40px;
+    // height: 40px;
     align-self: center;
 }
 .nav-item {
+    width: 96vw;
+}
+.nav-item {
     align-self: start;
+    background-color: inherit;
 }
 .nav-general {
     width: 100%;
@@ -37,13 +48,14 @@
 .navbar-nav {
     width: 16rem;
 }
-.nav-item {
-    background-color: inherit;
-}
 .dropdown-item {
     padding: .25rem .5rem;
+    transition: all 0.3s 0s;
 }
-
+.dropdown-item:hover {
+    transition: all 0.3s 0s;
+    color: #007bff;
+}
 // Google Maps API:
 /* Set the size of the div element that contains the map */
 #map {
@@ -53,7 +65,69 @@
     width: 100%;
     /* The width is the width of the web page */
 }
-
+.lists-header {
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between;
+}
+.lists-header h6 {
+    margin: 5px 0;
+}
+.fa-plus-square {
+    // color: #0081ff;
+}
+.fa-pen {
+    color: #0081ff;
+}
+.fa-ban {
+    color: red;
+}
+.pen-link {
+    padding: 1px 5px;
+    transition: all 1s 0s ease-in;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s 0s ease-in;
+    box-shadow: inset 0px 0px 0px 1rem #fff;
+    // Note to self: First box-shadow layer will NEVER TRANSITION.
+    // Hence it is more ideal to use the second box-shadow layer to appear. [Always goes inside->out]
+}
+.pen-link:hover {
+    transition: all 0.4s 0s ease-out;
+    box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+}
+.ban-link {
+    padding: 1px 5px;
+    transition: all 1s 0s ease-in;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.4s 0s ease-in;
+    box-shadow: inset 0px 0px 0px 1rem #fff;
+    // Note to self: First box-shadow layer will NEVER TRANSITION.
+    // Hence it is more ideal to use the second box-shadow layer to appear. [Always goes inside->out]
+}
+.ban-link:hover {
+    transition: all 0.4s 0s ease-out;
+    box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+}
+.nameListItem {
+    display: flex;
+    justify-content: space-between;
+    cursor: grab;
+}
+.fa-trash-alt {
+    padding: 5px 6px;
+    align-self: center;
+    cursor: pointer;
+    transition: all 0.4s 0s;
+    border-radius: 50%;
+    box-shadow: inset 0px 0px 0px 1rem #fff;
+}
+.fa-trash-alt:hover {
+    transition: all 0.4s 0s;
+    box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
+    color: red;
+}
 @media screen and (max-width: 400px) {
     .form-inline {
         flex-flow: row nowrap;
@@ -79,11 +153,19 @@
     .navbar-nav {
         height: inherit;
     }
-    .ul-list-styles {
-        box-shadow: none;
+    .nav-item {
+        width: auto;
     }
 }
 
 .task-location {
     z-index: 1000;
+}
+
+// Custom JS stylesheets:
+.hide {
+    display: none;
+}
+.dropdown-menu.show {
+    display: block;
 }

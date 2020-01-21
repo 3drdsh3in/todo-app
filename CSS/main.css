@@ -13,6 +13,10 @@
   padding: 0;
 }
 
+.navbar-collapse {
+  padding: 1rem 0rem;
+}
+
 .form-inline {
   margin: 0 1rem;
 }
@@ -20,16 +24,20 @@
 .navbar-toggler,
 .nav-item {
   margin: 0 .5rem;
-  height: 40px;
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
 }
 
 .nav-item {
+  width: 96vw;
+}
+
+.nav-item {
   -ms-flex-item-align: start;
       -ms-grid-row-align: start;
       align-self: start;
+  background-color: inherit;
 }
 
 .nav-general {
@@ -47,12 +55,16 @@
   width: 16rem;
 }
 
-.nav-item {
-  background-color: inherit;
-}
-
 .dropdown-item {
   padding: .25rem .5rem;
+  -webkit-transition: all 0.3s 0s;
+  transition: all 0.3s 0s;
+}
+
+.dropdown-item:hover {
+  -webkit-transition: all 0.3s 0s;
+  transition: all 0.3s 0s;
+  color: #007bff;
 }
 
 /* Set the size of the div element that contains the map */
@@ -62,6 +74,100 @@
   /* The height is 400 pixels */
   width: 100%;
   /* The width is the width of the web page */
+}
+
+.lists-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.lists-header h6 {
+  margin: 5px 0;
+}
+
+.fa-pen {
+  color: #0081ff;
+}
+
+.fa-ban {
+  color: red;
+}
+
+.pen-link {
+  padding: 1px 5px;
+  -webkit-transition: all 1s 0s ease-in;
+  transition: all 1s 0s ease-in;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-transition: all 0.4s 0s ease-in;
+  transition: all 0.4s 0s ease-in;
+  -webkit-box-shadow: inset 0px 0px 0px 1rem #fff;
+          box-shadow: inset 0px 0px 0px 1rem #fff;
+}
+
+.pen-link:hover {
+  -webkit-transition: all 0.4s 0s ease-out;
+  transition: all 0.4s 0s ease-out;
+  -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+          box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+}
+
+.ban-link {
+  padding: 1px 5px;
+  -webkit-transition: all 1s 0s ease-in;
+  transition: all 1s 0s ease-in;
+  border-radius: 50%;
+  cursor: pointer;
+  -webkit-transition: all 0.4s 0s ease-in;
+  transition: all 0.4s 0s ease-in;
+  -webkit-box-shadow: inset 0px 0px 0px 1rem #fff;
+          box-shadow: inset 0px 0px 0px 1rem #fff;
+}
+
+.ban-link:hover {
+  -webkit-transition: all 0.4s 0s ease-out;
+  transition: all 0.4s 0s ease-out;
+  -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+          box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+}
+
+.nameListItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
+.fa-trash-alt {
+  padding: 5px 6px;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  cursor: pointer;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
+  border-radius: 50%;
+  -webkit-box-shadow: inset 0px 0px 0px 1rem #fff;
+          box-shadow: inset 0px 0px 0px 1rem #fff;
+}
+
+.fa-trash-alt:hover {
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
+  -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
+          box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
+  color: red;
 }
 
 @media screen and (max-width: 400px) {
@@ -98,13 +204,20 @@
   .navbar-nav {
     height: inherit;
   }
-  .ul-list-styles {
-    -webkit-box-shadow: none;
-            box-shadow: none;
+  .nav-item {
+    width: auto;
   }
 }
 
 .task-location {
   z-index: 1000;
+}
+
+.hide {
+  display: none;
+}
+
+.dropdown-menu.show {
+  display: block;
 }
 /*# sourceMappingURL=main.css.map */
