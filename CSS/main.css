@@ -56,9 +56,14 @@
 }
 
 .dropdown-item {
+  font-size: 1.3rem;
   padding: .25rem .5rem;
   -webkit-transition: all 0.3s 0s;
   transition: all 0.3s 0s;
+}
+
+.dropdown-item h6 {
+  font-size: 1.3rem;
 }
 
 .dropdown-item:hover {
@@ -94,10 +99,26 @@
 
 .fa-pen {
   color: #0081ff;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
+}
+
+.fa-pen:hover {
+  color: #28a745;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
 }
 
 .fa-ban {
+  color: #007bff;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
+}
+
+.fa-ban:hover {
   color: red;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
 }
 
 .pen-link {
@@ -117,6 +138,7 @@
   transition: all 0.4s 0s ease-out;
   -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
           box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+  color: #28a745;
 }
 
 .ban-link {
@@ -145,11 +167,10 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  cursor: -webkit-grab;
-  cursor: grab;
 }
 
 .fa-trash-alt {
+  display: none;
   padding: 5px 6px;
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
@@ -162,7 +183,11 @@
           box-shadow: inset 0px 0px 0px 1rem #fff;
 }
 
-.fa-trash-alt:hover {
+.fa-trash-alt.parent-hover {
+  color: black;
+}
+
+.fa-trash-alt.parent-hover:hover {
   -webkit-transition: all 0.4s 0s;
   transition: all 0.4s 0s;
   -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
@@ -219,5 +244,16 @@
 
 .dropdown-menu.show {
   display: block;
+}
+
+.fa-trash-alt.show {
+  display: block;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.dropdown-item.set-text-red {
+  color: red;
 }
 /*# sourceMappingURL=main.css.map */

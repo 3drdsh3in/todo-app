@@ -121,26 +121,52 @@ function addListDOM(listName) {
     newIcon.classList.add('fa-trash-alt')
     newListItem.appendChild(newIcon);
 
+    // Add Show/Hide Trash Icon Event Listener:
+
+    // Pen Icon and Cancel Icon Respectively declared.
+    let initiateEditRef = document.getElementById('edit-names');
+    let cancelEditRef = document.getElementById('edit-names-cancel');
+    initiateEditRef.addEventListener('click', function () {
+        newIcon.classList.add('show');
+    })
+    cancelEditRef.addEventListener('click', function () {
+        newIcon.classList.remove('show');
+    })
+
+    // Add Red Hover Event In the case edit mode is ON:
+    newListItem.addEventListener('mouseenter', function () {
+        if (window.getComputedStyle(initiateEditRef).display == "none") {
+            // @precondition: Cancel is shown & pen is set to display="none";
+            newListItem.classList.add('set-text-red');
+            newIcon.classList.add('parent-hover');
+        }
+    })
+    newListItem.addEventListener('mouseleave', function () {
+        newListItem.classList.remove('set-text-red');
+        newIcon.classList.add('parent-hover');
+    })
+
+
     // Append List Name Onto List Section DOM.
     listSectionRef.appendChild(newListItem);
 }
 
 function initializeIcon() {
+    // Pen & Cancel Icons respectively declared.
     let initiateEditRef = document.getElementById('edit-names');
     let cancelEditRef = document.getElementById('edit-names-cancel');
 
     cancelEditRef.classList.add('hide');
 
     initiateEditRef.addEventListener('click', function () {
+        // Clicked Pen Icon
         cancelEditRef.classList.remove('hide');
         initiateEditRef.classList.add('hide');
     })
     cancelEditRef.addEventListener('click', function () {
+        // Clicked Cancel Icon
         cancelEditRef.classList.add('hide');
         initiateEditRef.classList.remove('hide');
-    })
-    let editIcon = document.getElementById('edit-names');
-    editIcon.addEventListener('click', function () {
     })
 }
 
@@ -187,7 +213,6 @@ document.getElementById('newListField').onkeypress = function (myEvent) {
 };
 
 // IMPROVEMENTS: FUNCTIONALITY
-// MODIFY&DELETE BUTTON NEXT TO ALL TASKS GIVING USER ABILITY TO FUCK AROUND WITH LIST NAMES. --- Tue
 // ADD A TASK SECTION ADDS IN NEW TASKS ELEMENTS. [Remember to showcase in day by day format by default] --- Tue
 // Allow users to sort tasks by day,week,month,year. --- Tue
 
