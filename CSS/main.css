@@ -69,16 +69,30 @@
 .dropdown-item:hover {
   -webkit-transition: all 0.3s 0s;
   transition: all 0.3s 0s;
-  color: #007bff;
+}
+
+.dropdown-item.selected-item {
+  color: #fff;
+  background: #343a40;
+}
+
+.dropdown-item:active {
+  background: #6d757d;
+}
+
+.dropdown-item.active {
+  background: #343a40;
+}
+
+input.dropdown-input:active {
+  background: none;
 }
 
 /* Set the size of the div element that contains the map */
 #map {
   margin: 10px 0px;
   height: 400px;
-  /* The height is 400 pixels */
   width: 100%;
-  /* The width is the width of the web page */
 }
 
 .lists-header {
@@ -129,15 +143,11 @@
   cursor: pointer;
   -webkit-transition: all 0.4s 0s ease-in;
   transition: all 0.4s 0s ease-in;
-  -webkit-box-shadow: inset 0px 0px 0px 1rem #fff;
-          box-shadow: inset 0px 0px 0px 1rem #fff;
 }
 
 .pen-link:hover {
   -webkit-transition: all 0.4s 0s ease-out;
   transition: all 0.4s 0s ease-out;
-  -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
-          box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
   color: #28a745;
 }
 
@@ -149,15 +159,11 @@
   cursor: pointer;
   -webkit-transition: all 0.4s 0s ease-in;
   transition: all 0.4s 0s ease-in;
-  -webkit-box-shadow: inset 0px 0px 0px 1rem #fff;
-          box-shadow: inset 0px 0px 0px 1rem #fff;
 }
 
 .ban-link:hover {
   -webkit-transition: all 0.4s 0s ease-out;
   transition: all 0.4s 0s ease-out;
-  -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
-          box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
 }
 
 .nameListItem {
@@ -179,19 +185,16 @@
   -webkit-transition: all 0.4s 0s;
   transition: all 0.4s 0s;
   border-radius: 50%;
-  -webkit-box-shadow: inset 0px 0px 0px 1rem #fff;
-          box-shadow: inset 0px 0px 0px 1rem #fff;
+  color: #007bff;
 }
 
 .fa-trash-alt.parent-hover {
-  color: black;
+  color: #007bff;
 }
 
 .fa-trash-alt.parent-hover:hover {
   -webkit-transition: all 0.4s 0s;
   transition: all 0.4s 0s;
-  -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
-          box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
   color: red;
 }
 
@@ -255,5 +258,55 @@
 
 .dropdown-item.set-text-red {
   color: red;
+}
+
+.sample-schedule {
+  margin: 2rem;
+}
+
+.card-deck {
+  margin: 50px auto;
+}
+
+.card {
+  margin: inherit;
+}
+
+.card-body {
+  min-height: 400px;
+}
+
+.card .card-footer {
+  padding: 10px;
+}
+
+.day-disp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.day-disp input {
+  border-radius: 20px;
+}
+
+.arrow-wrap {
+  margin: 0 10px;
+  padding: 4px 10px;
+  color: #d2d2d2;
+  border: 2px #d2d2d2 solid;
+  border-radius: 50%;
+}
+
+@media screen and (max-width: 992px) {
+  .card-deck {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
 }
 /*# sourceMappingURL=main.css.map */

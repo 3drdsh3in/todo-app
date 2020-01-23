@@ -58,16 +58,26 @@ body {
 }
 .dropdown-item:hover {
     transition: all 0.3s 0s;
-    color: #007bff;
+}
+.dropdown-item.selected-item {
+    color: $primary-theme-color;
+    background: $secondary-theme-color;
+}
+.dropdown-item:active {
+    background: #6d757d
+}
+.dropdown-item.active {
+    background: $secondary-theme-color;
+}
+input.dropdown-input:active {
+    background: none;
 }
 // Google Maps API:
 /* Set the size of the div element that contains the map */
 #map {
     margin: 10px 0px;
     height: 400px;
-    /* The height is 400 pixels */
     width: 100%;
-    /* The width is the width of the web page */
 }
 .lists-header {
     display: flex; 
@@ -102,13 +112,13 @@ body {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.4s 0s ease-in;
-    box-shadow: inset 0px 0px 0px 1rem #fff;
+    // box-shadow: inset 0px 0px 0px 1rem #fff;
     // Note to self: First box-shadow layer will NEVER TRANSITION.
     // Hence it is more ideal to use the second box-shadow layer to appear. [Always goes inside->out]
 }
 .pen-link:hover {
     transition: all 0.4s 0s ease-out;
-    box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+    // box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
     color: #28a745;
 }
 .ban-link {
@@ -117,21 +127,18 @@ body {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.4s 0s ease-in;
-    box-shadow: inset 0px 0px 0px 1rem #fff;
+    // box-shadow: inset 0px 0px 0px 1rem #fff;
     // Note to self: First box-shadow layer will NEVER TRANSITION.
     // Hence it is more ideal to use the second box-shadow layer to appear. [Always goes inside->out]
 }
 .ban-link:hover {
     transition: all 0.4s 0s ease-out;
-    box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
+    // box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #d2d2d2;
 }
 .nameListItem {
     display: flex;
     justify-content: space-between;
 }
-// .nameListItem:hover {
-//     color: red;
-// }
 .fa-trash-alt {
     display: none;
     padding: 5px 6px;
@@ -139,14 +146,15 @@ body {
     cursor: pointer;
     transition: all 0.4s 0s;
     border-radius: 50%;
-    box-shadow: inset 0px 0px 0px 1rem #fff;
+    // box-shadow: inset 0px 0px 0px 1rem inherit;
+    color: #007bff;
 }
 .fa-trash-alt.parent-hover {
-    color: black;
+    color: #007bff;
 }
 .fa-trash-alt.parent-hover:hover {
     transition: all 0.4s 0s;
-    box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
+    // box-shadow: inset 0px 0px 0px 1rem #d2d2d2, inset 0px 0px 0px 1px #d2d2d2;
     color: red;
 }
 @media screen and (max-width: 400px) {
@@ -196,4 +204,38 @@ body {
 }
 .dropdown-item.set-text-red {
     color: red;
+}
+.sample-schedule {
+    margin: 2rem;
+}
+.card-deck {
+    margin: 50px auto;
+}
+.card {
+    margin: inherit;
+}
+.card-body {
+    min-height: 400px;
+}
+.card .card-footer {
+    padding: 10px;
+}
+.day-disp {
+    display: flex;
+    align-items: center;
+}
+.day-disp input{
+    border-radius: 20px;
+}
+.arrow-wrap {
+    margin: 0 10px;
+    padding: 4px 10px;
+    color: #d2d2d2;
+    border: 2px #d2d2d2 solid;
+    border-radius: 50%;
+}
+@media screen and (max-width: 992px) {
+    .card-deck {
+        flex-direction: column;
+    }
 }

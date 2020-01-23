@@ -1,17 +1,25 @@
+// Don't forget type='module' in the corresponding script tag to html!
+import listItem from './class.js';
+
 window.onload = function () {
     // Initialize list section:
     if (!localStorage.getItem('nameLists') == false) {
-        // @precondition: Local Storage Exists, there are list names stored in local storage:
-        addListDivider();
-        nameList = JSON.parse(localStorage.getItem('nameLists'));
-        for (i = 0; i < nameList.length; i++) {
-            let currentName = nameList[i];
-            addListDOM(currentName);
+        // @precondition: Local Storage Exists, there is a list in the local storage.
+        if (localStorage.getItem('nameLists') != JSON.stringify([])) {
+            // @precondition: Local Storage Exists, List With Names Exist in the local storage.
+            addListDivider();
+            let nameList = JSON.parse(localStorage.getItem('nameLists'));
+            // -XXX- CHANGE
+            for (let i = 0; i < nameList.length; i++) {
+                let currentName = nameList[i]._name;
+                // CHANGED #1.
+                addListDOM(currentName);
+            }
         }
     }
     initializeIcon();
 
-    let dropDownRef = document.getElementById('navbarDropdown');
+    const dropDownRef = document.getElementById('navbarDropdown');
     dropDownRef.addEventListener('click', function clickDropDownMenu() {
         let dropDownMenuRef = document.querySelector('.dropdown-menu');
         if ((dropDownMenuRef.classList.value).includes('show')) {
@@ -21,6 +29,21 @@ window.onload = function () {
             dropDownMenuRef.classList.add('show');
         }
     });
+    const allTasksRef = document.getElementById('list-name-all');
+
+
+    allTasksRef.addEventListener('click', function () {
+        // Get All Possible Elements that can be highlighted. [NOTE: This event listener is for the all list selector, hence allTaskRef is not included in list checks.]
+        let nameListRef = document.querySelectorAll('.nameListItem');
+        // Remove all potentially selected list elements [An if statement check makes this shit more annoying to read so its been omitted.]
+        for (let i = 0; i < nameListRef.length; i++) {
+            nameListRef[i].classList.remove('selected-item');
+        }
+        // Add selected class
+        allTasksRef.classList.add('selected-item')
+    })
+    // Add Selection Icon-Class to All-task by default:
+    allTasksRef.classList.add('selected-item')
 }
 
 function newDefaultDate() {
@@ -87,13 +110,17 @@ function newDefaultDate() {
 }
 
 function addListDivider() {
-    newDivider = document.createElement('div');
+    let newDivider = document.createElement('div');
     newDivider.classList.add('dropdown-divider');
     newDivider.setAttribute('id', 'secondDropDivider');
     document.getElementById('listSection').appendChild(newDivider);
 }
+function removeListDivider() {
+    let listSectionRef = document.getElementById('listSection');
+    listSectionRef.removeChild(listSectionRef.childNodes[1]);
+}
 function addListDOM(listName) {
-    listSectionRef = document.getElementById('listSection');
+    let listSectionRef = document.getElementById('listSection');
     let newListItem = document.createElement('a');
     newListItem.innerHTML = listName;
     newListItem.classList.add('dropdown-item');
@@ -105,7 +132,7 @@ function addListDOM(listName) {
     let newListName = document.getElementById('newListField');
     newListName.addEventListener('keydown', function () {
         // Enter pressed and the value of the input is equivalent to the new list item's innerHTML property.
-        if ((event.which == 13 || event.keyCode == 13) && (newListName.value == newListItem.innerHTML)) {
+        if ((event.which == 13 || event.keyCode == 13) && (newListName.value == newListItem.textContent)) {
             newListItem.classList.add('bg-danger');
             newListItem.classList.add('text-light');
         }
@@ -113,6 +140,20 @@ function addListDOM(listName) {
     newListName.addEventListener('keyup', function () {
         newListItem.classList.remove('bg-danger');
         newListItem.classList.remove('text-light');
+    })
+
+    // Add Selected Item's Event Listener:
+    newListItem.addEventListener('click', function () {
+        // Get All Tasks Ref
+        let allTasksRef = document.getElementById('list-name-all');
+        let nameListRef = document.querySelectorAll('.nameListItem');
+        for (let i = 0; i < nameListRef.length; i++) {
+            nameListRef[i].classList.remove('selected-item');
+        }
+        // Remove selected-item class from allTask list selector.
+        allTasksRef.classList.remove('selected-item');
+        // Highlight Newly Selected Element
+        newListItem.classList.add('selected-item');
     })
 
     // Add TRASH ICON: <i class="far fa-trash-alt"></i>
@@ -132,6 +173,13 @@ function addListDOM(listName) {
     cancelEditRef.addEventListener('click', function () {
         newIcon.classList.remove('show');
     })
+    // Check For Whether Mode Is In Edit or Display/Cancelled:
+    if (window.getComputedStyle(initiateEditRef).display == 'none') {
+        newIcon.classList.add('show');
+    }
+    else {
+        newIcon.classList.remove('show');
+    }
 
     // Add Red Hover Event In the case edit mode is ON:
     newListItem.addEventListener('mouseenter', function () {
@@ -146,6 +194,35 @@ function addListDOM(listName) {
         newIcon.classList.add('parent-hover');
     })
 
+    // Add Event Listener for the Trash Bin So that the Item can be deleted.
+    newIcon.addEventListener('click', function () {
+        // Remove Item Off of Local Storage.
+        let removeIndex;
+        let namesList = JSON.parse(localStorage.getItem('nameLists'));
+        // -XXX- Change [] might need to actually use a loop this time for objects.
+        for (let i = 0; i < namesList.length; i++) {
+            if (listName == namesList[i].name) {
+                removeIndex = i;
+            }
+        }
+        namesList.splice(removeIndex, 1);
+        // ORIGINAL:
+        // namesList.splice(namesList.indexOf(listName), 1);
+
+        // Check if namesList is empty & remove second dropdown div if after the DOM updates the list item section will be empty.
+        if (namesList.length == 0) {
+            removeListDivider();
+        }
+        // -XXX- Change
+        localStorage.setItem('nameLists', JSON.stringify(namesList));
+        // Finally Remove Item Off of DOM.
+        listSectionRef.removeChild(newListItem);
+    })
+
+    // Dropdown Item Highlights Blue When Selected:
+    newListItem.addEventListener('click', function () {
+        newListItem.classList.add('selected-item')
+    })
 
     // Append List Name Onto List Section DOM.
     listSectionRef.appendChild(newListItem);
@@ -176,7 +253,7 @@ newItemButtonRef.addEventListener('click', newDefaultDate);
 
 // Initiates callback function whenever the a key is pressed with the new list field is selected.
 document.getElementById('newListField').onkeypress = function (myEvent) {
-    listSectionRef = document.getElementById('listSection');
+    let listSectionRef = document.getElementById('listSection');
     // Confirm that the user pushed the enter button.
     // @precondition: A new list name will be added every single time the enter key is fired.
     if (event.which == 13 || event.keyCode == 13) {
@@ -193,15 +270,24 @@ document.getElementById('newListField').onkeypress = function (myEvent) {
         }
         else if (!localStorage.getItem('nameLists')) {
             // @precondition: nameLists do not currently exist:
-            let newNameList = JSON.stringify([newListName.value]);
+            let newNameList = JSON.stringify([new listItem(newListName.value)]);
+            // -XXX- Change :(
             localStorage.setItem('nameLists', newNameList);
             addListDOM(newListName.value);
             document.getElementById('newListField').value = "";
         }
         else {
-            if (JSON.parse(localStorage.getItem('nameLists')).indexOf(newListName.value) == -1) {
-                let nameList = JSON.parse(localStorage.getItem('nameLists'));
-                nameList.push(newListName.value);
+            // -XXX- Change
+            let allowAdd = true;
+            let nameList = JSON.parse(localStorage.getItem('nameLists'))
+            for (let i = 0; i < nameList.length; i++) {
+                if (nameList[i].name == newListName.value) {
+                    allowAdd = false;
+                }
+            }
+            if (allowAdd) {
+                // @precondition list name does not already exist.
+                nameList.push(new listItem(newListName.value));
                 localStorage.setItem('nameLists', JSON.stringify(nameList));
 
                 // Add List Item onto DOM & Reset New Item Field.
@@ -212,9 +298,48 @@ document.getElementById('newListField').onkeypress = function (myEvent) {
     }
 };
 
+
+// ----------------------------------------------------------------------------------------------------------------------------------------
+
+// Add Task Function:
+function addTask(name, date, time, locationObj, description) {
+    if (!localStorage.getItem('nameLists') == false) {
+        // Get the current selected list:
+        let listNames = localStorage.getItem('nameLists')
+        let selectedListItemName = document.querySelector('.selected-item').textContent;
+        for (let i = 0; i < selectedListItemName.length; i++) {
+            if (selectedListItemName == listNames[i]._name) {
+                listNames[i]._items.push({
+                    name: name,
+                    date: date,
+                    time: time,
+                    locationInfo: locationObj,
+                    notes: description,
+                })
+            }
+        }
+
+    }
+    else {
+
+    }
+}
+
+// Add Task Via New Task Menu:
+let addTaskButtonRef = document.getElementById('addTaskButton');
+addTaskButtonRef.addEventListener('click', function () {
+    // Add New Task:
+    const taskNameRef = document.getElementById('task-name').value;
+    const taskDateRef = document.getElementById('task-date').value;
+    const taskTimeRef = document.getElementById('task-time').value;
+    const taskLocationInfo = localStorage.getItem('currentSearchLocation');
+    const taskNotes = document.getElementById('task-notes').value;
+
+
+})
+
 // IMPROVEMENTS: FUNCTIONALITY
-// ADD A TASK SECTION ADDS IN NEW TASKS ELEMENTS. [Remember to showcase in day by day format by default] --- Tue
-// Allow users to sort tasks by day,week,month,year. --- Tue
+// Allow users to sort tasks by day,week,month,year. --- Tue 
 
 // IMPROVEMENTS: UI
 // SIDEBAR INSTEAD OF YOUR PIECE OF SHIT BOOTSTRAP LOOKING ASS SHIT. --- Wed
