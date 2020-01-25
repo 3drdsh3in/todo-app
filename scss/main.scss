@@ -11,7 +11,7 @@
 // Navbar positioning is adequate: MOBILE
 html,
 body {
-    // color: #0081ff;
+    background: $shade-bg-color;
 }
 .form-inline .form-control {
     width: auto;
@@ -205,17 +205,79 @@ input.dropdown-input:active {
 .dropdown-item.set-text-red {
     color: red;
 }
+
+// Main Section:
+.list-settings {
+    display: flex;
+    align-items: center;
+}
+.disp-type {
+    border-radius: 10px;
+}
+.disp-type:hover {
+    box-shadow: inset 0 0 0 0 #6f6f6f, 0 0 1rem 0.25rem #a4a4a4;
+}
+.card-order-settings {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 1rem;
+    border-radius: 10px;
+    color: $secondary-theme-color;
+    background: $primary-theme-color;
+}
+.fa-bars {
+    padding: .375rem .75rem;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 0px 10px 10px 0px;
+
+    transition: all 1s 0s;
+}
+// Change via actual photoshop
+.fa-bars:first-child {
+    padding: 0.5rem 0.625rem;
+    transform: rotate(90deg);
+    border-radius: 0px 0px 10px 10px;
+}
+.fa-bars:hover {
+    box-shadow: inset 0 0 0 0 #a4a4a4, 0 0 1rem 0.25rem #a4a4a4;
+}
+.list-organization-section {
+    margin: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+}
 .sample-schedule {
-    margin: 2rem;
+    margin: 1rem 2rem;
 }
 .card-deck {
-    margin: 50px auto;
+    margin: 0 auto;
+    // overflow-x: auto;
+    // overflow-y: visible;
+    // white-space: nowrap;
+}
+.card-deck.toggle-col {
+    flex-direction: column;
+    margin: 1rem;
+}
+.card-deck.toggle-row {
+    flex-direction: row;
 }
 .card {
     margin: inherit;
+    transition: all 1s 0s;
+    border-radius: 10px;
+    // min-width: 300px;
+    margin: 1rem;
+}
+.card:hover {
+    box-shadow: 0 0 2rem 0.125rem #6f6f6f;
 }
 .card-body {
-    min-height: 400px;
+    min-height: 500px;
 }
 .card .card-footer {
     padding: 10px;
@@ -228,14 +290,54 @@ input.dropdown-input:active {
     border-radius: 20px;
 }
 .arrow-wrap {
-    margin: 0 10px;
+    margin: 0px 0px 0px 10px;
     padding: 4px 10px;
     color: #d2d2d2;
     border: 2px #d2d2d2 solid;
     border-radius: 50%;
 }
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 768px) {
     .card-deck {
         flex-direction: column;
     }
+}
+
+// Task Item Styling:
+.styleDiv {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    // background: $shade-bg-color;
+    border: 0.5px solid $shade-bg-color;
+    margin: 0 0.6rem;
+
+    transition: all 0.4s 0s;
+}
+.styleDiv:hover {
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+    border: 0.5px solid $shade-bg-color;
+    margin: 0 0.6rem;
+
+    transition: all 0.4s 0s;
+}
+.task-item {
+    margin: 0.4rem 0px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 2rem;
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: all 0.4s 0s;
+    border: 0.5px $shade-bg-color solid;
+}
+.task-item:hover {
+    transition: all 0.4s 0s;
+    border: 0.5px $blue-color solid;
+}
+.task-item h6 {
+    margin: 0;
 }

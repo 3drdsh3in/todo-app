@@ -1,6 +1,9 @@
 // Don't forget type='module' in the corresponding script tag to html!
 import listItem from './class.js';
 
+// Note to self: Don't use spotaneously retarded data structures in the future like you did for this one :)
+// Made managing Storage & API calls a literal fucking nightmare. {Should have just Nested list names into allTasks section of the storage.}
+
 window.onload = function () {
     // Initialize list section:
     if (!localStorage.getItem('nameLists') == false) {
@@ -17,8 +20,25 @@ window.onload = function () {
             }
         }
     }
-    initializeIcon();
 
+    // Hide Card-Flex if Screen is mobile device.
+    const flexdispRef = document.querySelector('.card-order-settings');
+    const widthChangeVal = window.matchMedia("(max-width: 768px)");
+    if (!widthChangeVal.matches) {
+        flexdispRef.style.display = 'flex';
+    }
+    else {
+        flexdispRef.style.display = 'none';
+    }
+    widthChangeVal.addListener(function widthChange(width) {
+        if (!width.matches) {
+            flexdispRef.style.display = 'flex';
+        }
+        else {
+            flexdispRef.style.display = 'none';
+        }
+    }
+    )
     const dropDownRef = document.getElementById('navbarDropdown');
     dropDownRef.addEventListener('click', function clickDropDownMenu() {
         let dropDownMenuRef = document.querySelector('.dropdown-menu');
@@ -41,14 +61,22 @@ window.onload = function () {
         }
         // Add selected class
         allTasksRef.classList.add('selected-item')
+        // ReInitialize DOM Upon switching lists.
+        clearCardBody();
+        initializeTaskDOM();
     })
     // Add Selection Icon-Class to All-task by default:
     allTasksRef.classList.add('selected-item')
+
+    toggleListDisplay();
+    initializeIcon();
+    toggleListDir();
+    initializeTaskDOM();
 }
 
 function newDefaultDate() {
-    taskDateRef = document.getElementById('task-date');
-    taskTimeRef = document.getElementById('task-time');
+    const taskDateRef = document.getElementById('task-date');
+    const taskTimeRef = document.getElementById('task-time');
 
     let dateObject = new Date();
     let dateString = '';
@@ -56,7 +84,7 @@ function newDefaultDate() {
     let dispTmr, dispYear, dispYearString, dispMonth, dispMonthString, dispDate, dispDateString;
 
     // Time: 6 Hours in the future:
-    displayHour = dateObject.getHours() + 7;
+    let displayHour = dateObject.getHours() + 7;
     if (displayHour > 23) {
         displayHour = displayHour - 24;
         dispTmr = true;
@@ -86,12 +114,11 @@ function newDefaultDate() {
 
     function digitCheck(checkNumber) {
         if (checkNumber < 10) {
-            checkString = "0";
+            return "0";
         }
         else {
-            checkString = "";
+            return "";
         }
-        return checkString;
     }
     // Check if last day month.
     function isLastDay(dt) {
@@ -154,6 +181,9 @@ function addListDOM(listName) {
         allTasksRef.classList.remove('selected-item');
         // Highlight Newly Selected Element
         newListItem.classList.add('selected-item');
+
+        // CALLS initializeTaskDOM to refresh the page's items.
+        initializeTaskDOM();
     })
 
     // Add TRASH ICON: <i class="far fa-trash-alt"></i>
@@ -219,7 +249,7 @@ function addListDOM(listName) {
         listSectionRef.removeChild(newListItem);
     })
 
-    // Dropdown Item Highlights Blue When Selected:
+    // Dropdown Item Highlights Black When Selected:
     newListItem.addEventListener('click', function () {
         newListItem.classList.add('selected-item')
     })
@@ -265,7 +295,7 @@ document.getElementById('newListField').onkeypress = function (myEvent) {
         let newListName = document.getElementById('newListField');
 
         // Update Local Storage With New List Item. [Web Browser specifies you must stringify all data before storing it.]
-        if (newListName.value == "" || newListName.value.replace(/ /g, '') == "") {
+        if (newListName.value == "" || newListName.value.replace(/ /g, '') == "" || newListName.value == "All Tasks") {
             // alert('Stupid List Name');
         }
         else if (!localStorage.getItem('nameLists')) {
@@ -303,25 +333,196 @@ document.getElementById('newListField').onkeypress = function (myEvent) {
 
 // Add Task Function:
 function addTask(name, date, time, locationObj, description) {
-    if (!localStorage.getItem('nameLists') == false) {
-        // Get the current selected list:
-        let listNames = localStorage.getItem('nameLists')
+    // @precondition one of the lists should always be selected in the list menu.
+    let listNames = JSON.parse(localStorage.getItem('nameLists'));
+    // Check if there is any tasks within list in the first place.
+    if (listNames != null && listNames.length != 0) {
+        // Get the current selected list & push it onto the new list. [If there are list items in first place]
         let selectedListItemName = document.querySelector('.selected-item').textContent;
-        for (let i = 0; i < selectedListItemName.length; i++) {
-            if (selectedListItemName == listNames[i]._name) {
-                listNames[i]._items.push({
-                    name: name,
-                    date: date,
-                    time: time,
-                    locationInfo: locationObj,
-                    notes: description,
-                })
+        if (selectedListItemName != 'All Tasks') {
+            for (let i = 0; i < listNames.length; i++) {
+                // Loop through list names
+                if (selectedListItemName == listNames[i]._name) {
+                    // Push New Item Onto The Corresponding List.
+                    listNames[i]._items.push({
+                        name: name,
+                        date: date,
+                        time: time,
+                        locationInfo: locationObj,
+                        notes: description,
+                    })
+                }
             }
+            // Push new local storage.
+            localStorage.setItem('nameLists', JSON.stringify(listNames));
         }
+    }
+    // In the situation of no list items: PUSH item with new list straight onto All tasks
+    if (!localStorage.getItem('allTasks')) {
+        // All tasks list does not exist.
+        let tmpList = [{
+            name: name,
+            date: date,
+            time: time,
+            locationInfo: locationObj,
+            notes: description,
+        }];
+        localStorage.setItem('allTasks', JSON.stringify(tmpList));
+    }
+    // In the situation of a existant list item: Get list & push the new object on.
+    else {
+        // Get & Parse -> Push -> Stringify & Set.
+        let allTasksList = JSON.parse(localStorage.getItem('allTasks'));
+        allTasksList.push({
+            name: name,
+            date: date,
+            time: time,
+            locationInfo: locationObj,
+            notes: description,
+        });
+        localStorage.setItem('allTasks', JSON.stringify(allTasksList));
+    }
+    // Update the DOM /w new task in its corresponding list. [Should happen for all times a new task is added.]
+    pushTaskDOM();
+}
 
+function pushTaskDOM() {
+    const taskInfo = JSON.parse(localStorage.getItem('allTasks'));
+    const nameListRef = JSON.parse(localStorage.getItem('nameLists'));
+    const selectedItemRef = document.querySelector('.selected-item');
+
+    if (selectedItemRef.textContent == 'All Tasks') {
+        let taskDiv = document.createElement('div');
+        taskDiv.classList.add('task-item');
+        let styleDiv = document.createElement('div');
+        styleDiv.classList.add('styleDiv');
+        taskDiv.appendChild(styleDiv)
+        // Task Name Tag:
+        let taskName = document.createElement('h6');
+        taskName.textContent = taskInfo[taskInfo.length - 1].name;
+        taskDiv.appendChild(taskName);
+        // Task Date Tag:
+        // taskDate.textContent = taskInfo[i].date;
+        let dateParseString = taskInfo[taskInfo.length - 1].date + ' ' + taskInfo[taskInfo.length - 1].time;
+        appendDOMBody(dateParseString, taskDiv);
     }
     else {
+        // IMPLEMENT THE BELOW IN THE CASE MORE APPEAR LIST METHODS
+        // let dispTypeList = document.querySelector('.disp-type-dropdown').children
+        let dispTypeList = document.getElementById('listSection').children;
+        let indexAccess;
+        for (let i = 0; i < dispTypeList.length; i++) {
+            if (selectedItemRef == dispTypeList[i + 1]) {
+                console.log(i);
+                indexAccess = i;
+                break;
+            }
+        }
+        // In the case a list other than All Tasks is currently selected.
+        let taskDiv = document.createElement('div');
+        taskDiv.classList.add('task-item');
+        let styleDiv = document.createElement('div');
+        styleDiv.classList.add('styleDiv');
+        taskDiv.appendChild(styleDiv)
+        // Task Name Tag:
+        let taskName = document.createElement('h6');
+        taskName.textContent = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].name;
+        taskDiv.appendChild(taskName);
+        // Task Date Tag:
+        // taskDate.textContent = taskInfo[i].date;
+        let dateParseString = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].date + ' ' + nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].time;
+        appendDOMBody(dateParseString, taskDiv);
+    }
+}
+// THIS FUNCTION'S PERFORMANCE IS SEVERELY HINDERED DUE TO A FUCKING TERRIBLE LOCAL STORAGE DATA STRUCTURE CHOICE.
+// O(n^2) complexity worst case :(
+function initializeTaskDOM() {
+    // BEGINS BY CHECKING THE SELECTED LIST ITEM.
+    const taskInfo = JSON.parse(localStorage.getItem('allTasks'));
+    // Name List Selectors
+    const selectedItemRef = document.querySelector('.selected-item');
+    if (!taskInfo) {
+        // No Pre-existing storage items.
+        console.log('No Item')
+    }
+    else if (selectedItemRef.textContent == 'All Tasks') {
+        // In the case All Tasks is currently selected.
+        // Loop Through Every Single Task Item:
+        for (let i = 0; i < taskInfo.length; i++) {
+            let taskDiv = document.createElement('div');
+            taskDiv.classList.add('task-item');
+            let styleDiv = document.createElement('div');
+            styleDiv.classList.add('styleDiv');
+            taskDiv.appendChild(styleDiv)
+            // Task Name Tag:
+            let taskName = document.createElement('h6');
+            taskName.textContent = taskInfo[i].name;
+            taskDiv.appendChild(taskName);
+            // Task Date Tag:
+            // let taskDate = document.createElement('p');
+            // taskDate.textContent = taskInfo[i].date;
+            let dateParseString = taskInfo[i].date + ' ' + taskInfo[i].time;
+            appendDOMBody(dateParseString, taskDiv);
+        }
+    }
+    else {
+        // In the case a list other than All Tasks is currently selected.
+        clearCardBody();
+        let nameItemsRef = JSON.parse(localStorage.getItem('nameLists'));
+        for (let i = 0; i < nameItemsRef.length; i++) {
+            if (nameItemsRef[i]._name == selectedItemRef.textContent) {
+                for (let j = 0; j < nameItemsRef[i]._items.length; j++) {
+                    let taskDiv = document.createElement('div');
+                    // taskDiv.textContent = nameItemsRef[i]._items[j].name;
+                    taskDiv.classList.add('task-item');
+                    let styleDiv = document.createElement('div');
+                    styleDiv.classList.add('styleDiv');
+                    taskDiv.appendChild(styleDiv)
+                    // Task Name Tag:
+                    let taskName = document.createElement('h6');
+                    taskName.textContent = taskInfo[i].name;
+                    taskDiv.appendChild(taskName);
+                    appendDOMBody(nameItemsRef[i]._items[j].date + ' ' + nameItemsRef[i]._items[j].time, taskDiv);
+                }
+            }
+        }
+    }
+}
 
+function clearCardBody() {
+    const cardsBodyRef = document.querySelectorAll('.card-item-section');
+    for (let i = 0; i < cardsBodyRef.length; i++) {
+        cardsBodyRef[i].textContent = '';
+    }
+}
+
+function appendDOMBody(dateParseString, taskDiv) {
+    const cardItemRef = document.querySelectorAll('.card-item-section');
+    if ((Date.parse(dateParseString) / 1000) - (Date.parse(getCurrentDate()) / 1000) < 86400) {
+        // Item Should be in 'Today' body
+        cardItemRef[0].appendChild(taskDiv);
+    }
+    else if ((Date.parse(dateParseString) / 1000) - (Date.parse(getCurrentDate()) / 1000) < 172800) {
+        cardItemRef[1].appendChild(taskDiv);
+    }
+    else if ((Date.parse(dateParseString) / 1000) - (Date.parse(getCurrentDate()) / 1000) < 604800) {
+        cardItemRef[2].appendChild(taskDiv);
+    }
+    else {
+        cardItemRef[3].appendChild(taskDiv);
+    }
+    function getCurrentDate() {
+        let currentYr, currentMnth, currentDate;
+        let tmpDate = new Date();
+        currentYr = tmpDate.getFullYear();
+        currentMnth = tmpDate.getMonth();
+        currentDate = tmpDate.getDate();
+        if (currentMnth >= 9) {
+            return currentYr.toString() + '-' + (currentMnth + 1).toString() + '-' + currentDate.toString();
+        }
+        else {
+            return currentYr.toString() + '-0' + (currentMnth + 1).toString() + '-' + currentDate.toString();
+        }
     }
 }
 
@@ -335,14 +536,44 @@ addTaskButtonRef.addEventListener('click', function () {
     const taskLocationInfo = localStorage.getItem('currentSearchLocation');
     const taskNotes = document.getElementById('task-notes').value;
 
-
+    addTask(taskNameRef, taskDateRef, taskTimeRef, taskLocationInfo, taskNotes);
 })
+function toggleListDisplay() {
+    let itemTimeRef = document.querySelector('.item_time');
+    let itemListRef = document.querySelector('.item_list');
 
+    itemListRef.classList.add('hide');
+
+    itemListRef.addEventListener('click', function () {
+        itemListRef.classList.add('hide');
+        itemTimeRef.classList.remove('hide');
+    })
+    itemTimeRef.addEventListener('click', function () {
+        itemTimeRef.classList.add('hide');
+        itemListRef.classList.remove('hide');
+    })
+}
+function toggleListDir() {
+    let disp_col = document.getElementById('card-col');
+    let disp_row = document.getElementById('card-row');
+    let card_disp = document.querySelector('.card-deck');
+
+    disp_col.addEventListener('click', function () {
+        if (!window.matchMedia("(max-width: 768px)").matches) {
+            card_disp.classList.add('toggle-col');
+            card_disp.classList.remove('toggle-row');
+        }
+    })
+    disp_row.addEventListener('click', function () {
+        card_disp.classList.add('toggle-row');
+        card_disp.classList.remove('toggle-col');
+    })
+}
 // IMPROVEMENTS: FUNCTIONALITY
-// Allow users to sort tasks by day,week,month,year. --- Tue 
 
 // IMPROVEMENTS: UI
-// SIDEBAR INSTEAD OF YOUR PIECE OF SHIT BOOTSTRAP LOOKING ASS SHIT. --- Wed
 // RESPONSIVE WEB FACTORS. --- Wed
+// - Make it so that at every location search, camera zooms to a co - ordinate in between
+// the search location and the user's current location.
 
 // IMRPOVEMENTS: SOUNDCLOUD API {OPTIONAL} [Never because its a fucking todo app edward u high functioning autism retard]
