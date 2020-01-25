@@ -64,6 +64,7 @@ window.onload = function () {
         // ReInitialize DOM Upon switching lists.
         clearCardBody();
         initializeTaskDOM();
+        updateListName();
     })
     // Add Selection Icon-Class to All-task by default:
     allTasksRef.classList.add('selected-item')
@@ -146,6 +147,7 @@ function removeListDivider() {
     let listSectionRef = document.getElementById('listSection');
     listSectionRef.removeChild(listSectionRef.childNodes[1]);
 }
+
 function addListDOM(listName) {
     let listSectionRef = document.getElementById('listSection');
     let newListItem = document.createElement('a');
@@ -184,6 +186,7 @@ function addListDOM(listName) {
 
         // CALLS initializeTaskDOM to refresh the page's items.
         initializeTaskDOM();
+        updateListName();
     })
 
     // Add TRASH ICON: <i class="far fa-trash-alt"></i>
@@ -328,9 +331,6 @@ document.getElementById('newListField').onkeypress = function (myEvent) {
     }
 };
 
-
-// ----------------------------------------------------------------------------------------------------------------------------------------
-
 // Add Task Function:
 function addTask(name, date, time, locationObj, description) {
     // @precondition one of the lists should always be selected in the list menu.
@@ -386,11 +386,29 @@ function addTask(name, date, time, locationObj, description) {
     pushTaskDOM();
 }
 
+function viewTaskGoogleAPI(locationObject) {
+    locationObject = JSON.parse(locationObject);
+    // const viewLocationRef = document.getElementById('view-location');
+    var panLocation = { lat: locationObject.geometry.location.lat, lng: locationObject.geometry.location.lng };
+    var currentMap = new google.maps.Map(document.getElementById('view-location'), { zoom: 12, center: panLocation, gestureHandling: 'cooperative', mapTypeId: google.maps.MapTypeId.ROADMAP });
+    let marker = new google.maps.Marker({
+        position: panLocation,
+        map: currentMap,
+    });
+    // Set an info window description to the inputted description value.
+    var infowindow = new google.maps.InfoWindow({
+        content: locationObject.formatted_address
+    });
+    // Whenever the location is clicked it will open the infowindow.
+    marker.addListener('click', function () {
+        infowindow.open(currentMap, marker);
+    })
+}
+
 function pushTaskDOM() {
     const taskInfo = JSON.parse(localStorage.getItem('allTasks'));
     const nameListRef = JSON.parse(localStorage.getItem('nameLists'));
     const selectedItemRef = document.querySelector('.selected-item');
-
     if (selectedItemRef.textContent == 'All Tasks') {
         let taskDiv = document.createElement('div');
         taskDiv.classList.add('task-item');
@@ -401,8 +419,24 @@ function pushTaskDOM() {
         let taskName = document.createElement('h6');
         taskName.textContent = taskInfo[taskInfo.length - 1].name;
         taskDiv.appendChild(taskName);
-        // Task Date Tag:
-        // taskDate.textContent = taskInfo[i].date;
+        taskDiv.setAttribute('data-toggle', 'modal')
+        taskDiv.setAttribute('data-target', '#viewTaskModal')
+
+        // Proper Interaction:
+        taskDiv.addEventListener("click", function () {
+            const viewNameRef = document.getElementById('view-name');
+            const viewDateRef = document.getElementById('view-date');
+            const viewTimeRef = document.getElementById('view-time');
+            const viewDescriptionRef = document.getElementById('view-description');
+
+            viewNameRef.textContent = taskInfo[taskInfo.length - 1].name;
+            viewDateRef.textContent = taskInfo[taskInfo.length - 1].date;
+            viewTimeRef.textContent = taskInfo[taskInfo.length - 1].time;
+            viewDescriptionRef.value = taskInfo[taskInfo.length - 1].notes;
+
+            viewTaskGoogleAPI(taskInfo[taskInfo.length - 1].locationInfo);
+        })
+
         let dateParseString = taskInfo[taskInfo.length - 1].date + ' ' + taskInfo[taskInfo.length - 1].time;
         appendDOMBody(dateParseString, taskDiv);
     }
@@ -428,8 +462,24 @@ function pushTaskDOM() {
         let taskName = document.createElement('h6');
         taskName.textContent = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].name;
         taskDiv.appendChild(taskName);
-        // Task Date Tag:
-        // taskDate.textContent = taskInfo[i].date;
+        taskDiv.setAttribute('data-toggle', 'modal')
+        taskDiv.setAttribute('data-target', '#viewTaskModal')
+
+        // Proper Interaction:
+        taskDiv.addEventListener("click", function () {
+            const viewNameRef = document.getElementById('view-name');
+            const viewDateRef = document.getElementById('view-date');
+            const viewTimeRef = document.getElementById('view-time');
+            const viewDescriptionRef = document.getElementById('view-description');
+
+            viewNameRef.textContent = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].name;
+            viewDateRef.textContent = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].date;
+            viewTimeRef.textContent = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].time;
+            viewDescriptionRef.value = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].notes;
+
+            viewTaskGoogleAPI(nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].locationInfo);
+        })
+
         let dateParseString = nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].date + ' ' + nameListRef[indexAccess]._items[nameListRef[indexAccess]._items.length - 1].time;
         appendDOMBody(dateParseString, taskDiv);
     }
@@ -458,9 +508,24 @@ function initializeTaskDOM() {
             let taskName = document.createElement('h6');
             taskName.textContent = taskInfo[i].name;
             taskDiv.appendChild(taskName);
-            // Task Date Tag:
-            // let taskDate = document.createElement('p');
-            // taskDate.textContent = taskInfo[i].date;
+            taskDiv.setAttribute('data-toggle', 'modal')
+            taskDiv.setAttribute('data-target', '#viewTaskModal')
+
+            // Proper Interaction:
+            taskDiv.addEventListener("click", function () {
+                const viewNameRef = document.getElementById('view-name');
+                const viewDateRef = document.getElementById('view-date');
+                const viewTimeRef = document.getElementById('view-time');
+                const viewDescriptionRef = document.getElementById('view-description');
+
+                viewNameRef.textContent = taskInfo[i].name;
+                viewDateRef.textContent = taskInfo[i].date;
+                viewTimeRef.textContent = taskInfo[i].time;
+                viewDescriptionRef.value = taskInfo[i].notes;
+
+                viewTaskGoogleAPI(taskInfo[i].locationInfo);
+            })
+
             let dateParseString = taskInfo[i].date + ' ' + taskInfo[i].time;
             appendDOMBody(dateParseString, taskDiv);
         }
@@ -480,8 +545,27 @@ function initializeTaskDOM() {
                     taskDiv.appendChild(styleDiv)
                     // Task Name Tag:
                     let taskName = document.createElement('h6');
-                    taskName.textContent = taskInfo[i].name;
+                    // taskName.textContent = taskInfo[i].name; DOUBLE CHECK
+                    taskName.textContent = nameItemsRef[i]._items[j].name;
                     taskDiv.appendChild(taskName);
+                    taskDiv.setAttribute('data-toggle', 'modal')
+                    taskDiv.setAttribute('data-target', '#viewTaskModal')
+
+                    // Proper Interaction:
+                    taskDiv.addEventListener("click", function () {
+                        const viewNameRef = document.getElementById('view-name');
+                        const viewDateRef = document.getElementById('view-date');
+                        const viewTimeRef = document.getElementById('view-time');
+                        const viewDescriptionRef = document.getElementById('view-description');
+
+                        viewNameRef.textContent = nameItemsRef[i]._items[j].name;
+                        viewDateRef.textContent = nameItemsRef[i]._items[j].date;
+                        viewTimeRef.textContent = nameItemsRef[i]._items[j].time;
+                        viewDescriptionRef.value = nameItemsRef[i]._items[j].notes;
+
+                        viewTaskGoogleAPI(nameItemsRef[i]._items[j].locationInfo);
+                    })
+
                     appendDOMBody(nameItemsRef[i]._items[j].date + ' ' + nameItemsRef[i]._items[j].time, taskDiv);
                 }
             }
@@ -511,6 +595,7 @@ function appendDOMBody(dateParseString, taskDiv) {
     else {
         cardItemRef[3].appendChild(taskDiv);
     }
+
     function getCurrentDate() {
         let currentYr, currentMnth, currentDate;
         let tmpDate = new Date();
@@ -524,6 +609,12 @@ function appendDOMBody(dateParseString, taskDiv) {
             return currentYr.toString() + '-0' + (currentMnth + 1).toString() + '-' + currentDate.toString();
         }
     }
+}
+
+function updateListName() {
+    const listNameHeaderRef = document.getElementById('list-name-header');
+    const currentSelectedItemRef = document.querySelector('.selected-item');
+    listNameHeaderRef.textContent = currentSelectedItemRef.textContent;
 }
 
 // Add Task Via New Task Menu:
@@ -569,10 +660,11 @@ function toggleListDir() {
         card_disp.classList.remove('toggle-col');
     })
 }
-// IMPROVEMENTS: FUNCTIONALITY
-
-// IMPROVEMENTS: UI
-// RESPONSIVE WEB FACTORS. --- Wed
+// IMPROVEMENTS:
+// RESPONSIVE WEB FACTORS
+// BETTER SAVE DATA STRUCTURE. [Doesn't work ATM /w repeating task names]
+// SEARCH BAR FOR TASK NAMES.
+// Quickly Add Tasks Option & Responsiveness.
 // - Make it so that at every location search, camera zooms to a co - ordinate in between
 // the search location and the user's current location.
 

@@ -34,7 +34,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <!-- <span class="sr-only">(current)</span> -->
-                    <a class="nav-link" href="#" data-target="#exampleModal" data-toggle="modal" id="newItemButton"><i
+                    <a class="nav-link" href="#" data-target="#addTaskModal" data-toggle="modal" id="newItemButton"><i
                             class="fas fa-plus-square"></i> New Task
                     </a>
                 </li>
@@ -64,7 +64,8 @@
     </nav>
     <main>
         <section class="modal-section">
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            <!-- Add Task Modal -->
+            <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -77,20 +78,20 @@
                         <div class="modal-body">
                             <form id="modal-form" action="/search" method="GET">
                                 <div class="form-group">
-                                    <label for="task-name">Task Name</label>
+                                    <label for="task-name">Task Name:</label>
                                     <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp"
                                         placeholder="I Want To...">
                                 </div>
                                 <div class="form-group">
-                                    <label for="task-date">Task Date</label>
+                                    <label for="task-date">Task Date:</label>
                                     <input type="date" class="form-control" id="task-date" value="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="task-time">Task Time</label>
+                                    <label for="task-time">Task Time:</label>
                                     <input type="time" class="form-control timepicker" id="task-time" value="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="task-location">Task Location</label>
+                                    <label for="task-location">Task Location:</label>
                                     <!-- Search Location Input -->
                                     <input type="text" class="form-control index-search controls" id="task-location"
                                         value="" placeholder="San Fransisco, California">
@@ -118,11 +119,51 @@
                     </div>
                 </div>
             </div>
+            <!-- View Task Modal -->
+            <div class="modal fade" id="viewTaskModal" tabindex="-1" role="dialog" aria-labelledby="viewTaskTitle"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="view-name"></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="displayTaskSection">
+                            <form id="modal-form" action="/search" method="GET">
+                                <div class="form-group">
+                                    <label for="view-date">Task Date:</label>
+                                    <p id="view-date"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="view-time">Task Time:</label>
+                                    <p id="view-time"></p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="view-location">Task Location:</label>
+                                    <!-- GOOGLE MAPS: -->
+                                    <div class="form-group" id='view-location'></div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="task-notes">Task Notes:</label>
+                                    <textarea class="form-control" id="view-description" rows="1"
+                                        placeholder="Insert your notes here"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- LIST DISPLAY SECTION -->
         <section class="list-organization-section">
             <div class="list-name">
-                <h5>INSERT TASK NAME HERE</h5>
+                <h5 id="list-name-header">All Tasks</h5>
             </div>
             <div class="list-settings">
                 <div class="card-order-settings" id="flex-disp">
