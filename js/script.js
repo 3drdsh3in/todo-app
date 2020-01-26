@@ -511,6 +511,7 @@ window.onload = function () {
             let tickIcon = document.createElement('i');
             tickIcon.classList.add('far');
             tickIcon.classList.add('fa-check-circle');
+            tickIcon.classList.add('fa-2x');
 
             tickIcon.addEventListener("click", function () {
                 // Prevent Parent's Link From Firing When Child Is Selected.
@@ -538,6 +539,7 @@ window.onload = function () {
         function createDeleteIcon(taskDiv, iconTag) {
             iconTag.classList.add('fas')
             iconTag.classList.add('fa-times-circle')
+            iconTag.classList.add('fa-2x')
             iconTag.classList.add('hide')
             taskDiv.appendChild(iconTag);
 
@@ -554,8 +556,6 @@ window.onload = function () {
         taskName.textContent = taskItemRef.name;
         initializeTaskName(taskDiv, taskName);
 
-        // Delete Icon:
-        // <i class="fas fa-times-circle"></i>
         let deleteIcon = document.createElement('i');
         createDeleteIcon(taskDiv, deleteIcon)
 
@@ -695,11 +695,13 @@ window.onload = function () {
     }
 
     function checkRepeatingTaskNames(taskName) {
-        let allTasksRef = JSON.parse(localStorage.getItem('allTasks'));
-        for (let i = 0; i < allTasksRef.length; i++)
-            if (taskName == allTasksRef[i].name) {
-                throw new Error('Repeating Task Name');
-            }
+        if (!localStorage.getItem('allTasks') == false) {
+            let allTasksRef = JSON.parse(localStorage.getItem('allTasks'));
+            for (let i = 0; i < allTasksRef.length; i++)
+                if (taskName == allTasksRef[i].name) {
+                    throw new Error('Repeating Task Name');
+                }
+        }
     }
     function toggleListDisplay() {
         let itemTimeRef = document.querySelector('.item_time');
@@ -745,6 +747,7 @@ window.onload = function () {
             let tickIcon = document.createElement('i');
             tickIcon.classList.add('far');
             tickIcon.classList.add('fa-check-circle');
+            tickIcon.classList.add('fa-2x');
 
             tickIcon.addEventListener("click", function () {
                 // Prevent Parent's Link From Firing When Child Is Selected.
@@ -767,6 +770,7 @@ window.onload = function () {
         function createDeleteIcon(taskDiv, iconTag) {
             iconTag.classList.add('fas')
             iconTag.classList.add('fa-times-circle')
+            iconTag.classList.add('fa-2x')
             iconTag.classList.add('hide')
             taskDiv.appendChild(iconTag);
 
@@ -783,8 +787,6 @@ window.onload = function () {
         taskName.textContent = taskNameValue + ' - QUICK TASK';
         initializeTaskName(taskDiv, taskName);
 
-        // Delete Icon:
-        // <i class="fas fa-times-circle"></i>
         let deleteIcon = document.createElement('i');
         createDeleteIcon(taskDiv, deleteIcon)
 
