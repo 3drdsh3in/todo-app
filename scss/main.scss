@@ -276,13 +276,16 @@ input.dropdown-input:active {
 }
 @media screen and (max-width: 600px) {
     .list-organization-section {
-        margin: 2rem 0.5rem;
+        margin: 2rem 1.5rem;
     }
     .sample-schedule {
-        margin: 0.4rem;
+        margin: 1.5rem;
     }
     .card {
-        margin: 0rem 0.1rem;
+        margin: 0rem;
+    }
+    div.card-body {
+        height: 400px;
     }
 }
 .card:hover {
