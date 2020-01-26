@@ -26,8 +26,9 @@
             </button>
 
             <form class="form-inline">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                    id="searchField">
+                <button class="btn btn-outline-success" type="submit" id="searchButton">Search</button>
             </form>
         </div>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -81,6 +82,7 @@
                                     <label for="task-name">Task Name:</label>
                                     <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp"
                                         placeholder="I Want To...">
+                                    <div class="invalid-feedback">Task name has already been used.</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="task-date">Task Date:</label>
@@ -148,13 +150,13 @@
                                 <div class="form-group">
                                     <label for="task-notes">Task Notes:</label>
                                     <textarea class="form-control" id="view-description" rows="1"
-                                        placeholder="Insert your notes here"></textarea>
+                                        placeholder="No entered notes..."></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                            <button type="button" class="btn btn-danger" id="view-delete-btn">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -163,7 +165,7 @@
         <!-- LIST DISPLAY SECTION -->
         <section class="list-organization-section">
             <div class="list-name">
-                <h5 id="list-name-header">All Tasks</h5>
+                <h1 id="list-name-header">All Tasks</h1>
             </div>
             <div class="list-settings">
                 <div class="card-order-settings" id="flex-disp">
@@ -190,14 +192,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Today</h5>
+                            <hr>
                             <div class="card-item-section"></div>
                         </div>
                         <div class="card-footer">
                             <form action="">
                                 <div class="day-disp">
-                                    <input class="form-control" type="text" name=""
+                                    <input class="form-control quickTaskField" type="text" name=""
                                         placeholder="Click to quickly add a task">
-                                    <span class="arrow-wrap"><i class="fas fa-arrow-up"></i></span>
+                                    <span class="arrow-wrap"><i class="fas fa-arrow-up quickTaskBtn"></i></span>
                                 </div>
                             </form>
                         </div>
@@ -205,14 +208,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Tommorow</h5>
+                            <hr>
                             <div class="card-item-section"></div>
                         </div>
                         <div class="card-footer">
                             <form action="">
                                 <div class="day-disp">
-                                    <input class="form-control" type="text" name=""
+                                    <input class="form-control quickTaskField" type="text" name=""
                                         placeholder="Click to quickly add a task">
-                                    <span class="arrow-wrap"><i class="fas fa-arrow-up"></i></span>
+                                    <span class="arrow-wrap"><i class="fas fa-arrow-up quickTaskBtn"></i></span>
                                 </div>
                             </form>
                         </div>
@@ -220,14 +224,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">This Week</h5>
+                            <hr>
                             <div class="card-item-section"></div>
                         </div>
                         <div class="card-footer">
                             <form action="">
                                 <div class="day-disp">
-                                    <input class="form-control" type="text" name=""
+                                    <input class="form-control quickTaskField" type="text" name=""
                                         placeholder="Click to quickly add a task">
-                                    <span class="arrow-wrap"><i class="fas fa-arrow-up"></i></span>
+                                    <span class="arrow-wrap"><i class="fas fa-arrow-up quickTaskBtn"></i></span>
                                 </div>
                             </form>
                         </div>
@@ -235,14 +240,15 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Someday</h5>
+                            <hr>
                             <div class="card-item-section"></div>
                         </div>
                         <div class="card-footer">
                             <form action="">
                                 <div class="day-disp">
-                                    <input class="form-control" type="text" name=""
+                                    <input class="form-control quickTaskField" type="text" name=""
                                         placeholder="Click to quickly add a task">
-                                    <span class="arrow-wrap"><i class="fas fa-arrow-up"></i></span>
+                                    <span class="arrow-wrap"><i class="fas fa-arrow-up quickTaskBtn"></i></span>
                                 </div>
                             </form>
                         </div>

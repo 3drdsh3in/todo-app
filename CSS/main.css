@@ -250,6 +250,10 @@ input.dropdown-input:active {
   display: none;
 }
 
+.task-item.hide {
+  display: none;
+}
+
 .dropdown-menu.show {
   display: block;
 }
@@ -360,15 +364,20 @@ input.dropdown-input:active {
   transition: all 1s 0s;
   border-radius: 10px;
   margin: 1rem;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
 }
 
 .card:hover {
   -webkit-box-shadow: 0 0 2rem 0.125rem #6f6f6f;
           box-shadow: 0 0 2rem 0.125rem #6f6f6f;
+  -webkit-transform: scale(1.025);
+          transform: scale(1.025);
 }
 
 .card-body {
-  min-height: 500px;
+  height: 500px;
+  overflow: scroll;
 }
 
 .card .card-footer {
@@ -394,6 +403,15 @@ input.dropdown-input:active {
   color: #d2d2d2;
   border: 2px #d2d2d2 solid;
   border-radius: 50%;
+  -webkit-transition: all 0.4s 0s;
+  transition: all 0.4s 0s;
+  cursor: pointer;
+}
+
+.arrow-wrap:hover {
+  color: #fff;
+  background: #007bff;
+  border-color: #007bff;
 }
 
 @media screen and (max-width: 768px) {
@@ -405,24 +423,67 @@ input.dropdown-input:active {
   }
 }
 
-.styleDiv {
-  height: 1rem;
-  width: 1rem;
-  border-radius: 50%;
-  border: 0.5px solid #d2d2d2;
-  margin: 0 0.6rem;
-  -webkit-transition: all 0.4s 0s;
-  transition: all 0.4s 0s;
+.nestStyleDiv {
+  margin: 0rem 2rem;
 }
 
-.styleDiv:hover {
-  height: 1rem;
-  width: 1rem;
+.nestStyleDiv.checked-task {
+  text-decoration: line-through;
+}
+
+.fa-check-circle {
+  position: absolute;
+  top: 7.5px;
+  left: 5px;
+  color: #28a745;
+  padding: 0px;
+  margin: 0 0.3rem;
+  cursor: pointer;
+  -webkit-transition: all 0.8s 0s;
+  transition: all 0.8s 0s;
+}
+
+.fa-check-circle:hover {
+  color: #d2d2d2;
+}
+
+.fa-check-circle.checked-task {
+  color: #d2d2d2;
   border-radius: 50%;
-  border: 0.5px solid #d2d2d2;
-  margin: 0 0.6rem;
-  -webkit-transition: all 0.4s 0s;
-  transition: all 0.4s 0s;
+  -webkit-animation: checked-animation 0.6s linear 0s;
+          animation: checked-animation 0.6s linear 0s;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  cursor: auto;
+}
+
+@-webkit-keyframes checked-animation {
+  from {
+    -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #b5b5b5;
+            box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #b5b5b5;
+  }
+  to {
+    -webkit-box-shadow: inset 0px 0px 0px 0px #d2d2d2, 0 0 0 15px rgba(181, 181, 181, 0);
+            box-shadow: inset 0px 0px 0px 0px #d2d2d2, 0 0 0 15px rgba(181, 181, 181, 0);
+  }
+}
+
+@keyframes checked-animation {
+  from {
+    -webkit-box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #b5b5b5;
+            box-shadow: inset 0px 0px 0px 1rem #d2d2d2, 0 0 0 1px #b5b5b5;
+  }
+  to {
+    -webkit-box-shadow: inset 0px 0px 0px 0px #d2d2d2, 0 0 0 15px rgba(181, 181, 181, 0);
+            box-shadow: inset 0px 0px 0px 0px #d2d2d2, 0 0 0 15px rgba(181, 181, 181, 0);
+  }
+}
+
+.fa-times-circle {
+  color: red;
+  justify-self: flex-end;
+  margin: 0 0.5rem;
+  cursor: pointer;
 }
 
 .task-item {
@@ -430,22 +491,29 @@ input.dropdown-input:active {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
   width: 100%;
   height: 2rem;
+  position: relative;
   border-radius: 5px;
-  cursor: pointer;
+  overflow: scroll;
   -webkit-transition: all 0.4s 0s;
   transition: all 0.4s 0s;
   border: 0.5px #d2d2d2 solid;
+  cursor: pointer;
 }
 
 .task-item:hover {
   -webkit-transition: all 0.4s 0s;
   transition: all 0.4s 0s;
   border: 0.5px #007bff solid;
+  -webkit-transform: scale(1.025);
+          transform: scale(1.025);
 }
 
 .task-item h6 {
