@@ -274,6 +274,17 @@ input.dropdown-input:active {
 
     transition: all 0.4s 0s;
 }
+@media screen and (max-width: 600px) {
+    .list-organization-section {
+        margin: 2rem 0.5rem;
+    }
+    .sample-schedule {
+        margin: 0.4rem;
+    }
+    .card {
+        margin: 0rem 0.1rem;
+    }
+}
 .card:hover {
     box-shadow: 0 0 2rem 0.125rem #6f6f6f;
     transform: scale(1.025);
