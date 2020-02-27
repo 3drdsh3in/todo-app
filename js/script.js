@@ -106,17 +106,23 @@ window.onload = function () {
 
     // Quick Task Add:
     for (let i = 0; i < document.getElementsByClassName('quickTaskField').length; i++) {
+
+        // Busted:
         document.getElementsByClassName('quickTaskField')[i].onkeypress = function () {
             let quickTaskName = document.getElementsByClassName('quickTaskField');
             for (let j = 0; j < quickTaskName.length; j++) {
                 if (quickTaskName[j].value != '') {
                     if (event.which == 13 || event.keyCode == 13) {
+                        // Prevent the default input form from submitting which will subsequently
+                        // cause the page to reload unintentionally.
+                        event.preventDefault();
                         addQuickTask(quickTaskName[j].value, j);
                         document.getElementsByClassName('quickTaskField')[j].value = '';
                     }
                 }
             }
         }
+        // Working:
         document.getElementsByClassName('arrow-wrap')[i].addEventListener('click', function () {
             let quickTaskName = document.getElementsByClassName('quickTaskField');
             for (let j = 0; j < quickTaskName.length; j++) {
@@ -784,7 +790,8 @@ window.onload = function () {
         let taskDiv = document.createElement('div');
         // Task Name Tag:
         let taskName = document.createElement('h6');
-        taskName.textContent = taskNameValue + ' - QUICK TASK';
+        // 'Quick Task - '
+        taskName.textContent = taskNameValue;
         initializeTaskName(taskDiv, taskName);
 
         let deleteIcon = document.createElement('i');

@@ -255,9 +255,6 @@ input.dropdown-input:active {
 }
 .card-deck {
     margin: 0 auto;
-    // overflow-x: auto;
-    // overflow-y: visible;
-    // white-space: nowrap;
 }
 .card-deck.toggle-col {
     flex-direction: column;
@@ -321,31 +318,34 @@ input.dropdown-input:active {
     background: #007bff;
     border-color: #007bff;
 }
-@media screen and (max-width: 768px) {
-    .card-deck {
+@media screen and (max-width: 1300px) {
+    div.card-deck {
         flex-direction: column;
     }
 }
 .styleDiv {
     display: flex;
     align-items: center;
+    width: 80%;
 }
 .nestStyleDiv {
     margin: 0rem 0rem 0rem 2rem;
     overflow: hidden;
 }
+@media screen and (max-width: 400px) {
+    .nestStyleDiv {
+        margin: 0rem 0rem 0rem 0.5rem;
+    }
+}
 .nestStyleDiv h6 {
-    height: 16px;
-    max-width: 150px;
-    overflow: hidden;
+    height: 1.3rem;
+    font-size: 1rem;
+    width: 100%;
 }
 .nestStyleDiv.checked-task {
     text-decoration: line-through;
 }
 .fa-check-circle {
-    // position: absolute;
-    // top: 7.5px;
-    // left: 5px;
     color: #28a745;
     padding: 0px;
     margin: 0 0.3rem;
@@ -379,6 +379,10 @@ input.dropdown-input:active {
     justify-self: flex-end;
     margin: 0 0.5rem;
     cursor: pointer;
+    transition: color 0.4s 0s;
+}
+.fa-times-circle:hover {
+    color: #d2d2d2;
 }
 .task-item {
     margin: 0.4rem 0px;
