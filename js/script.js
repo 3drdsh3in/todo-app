@@ -372,7 +372,7 @@ window.onload = function () {
             let namesList = JSON.parse(localStorage.getItem('nameLists'));
             // -XXX- Change [] might need to actually use a loop this time for objects.
             for (let i = 0; i < namesList.length; i++) {
-                if (listName == namesList[i].name) {
+                if (listName == namesList[i]._name) {
                     removeIndex = i;
                 }
             }
@@ -388,6 +388,8 @@ window.onload = function () {
 
             if (!document.querySelector('.selected-item')) {
                 document.getElementById('list-name-all').classList.add('selected-item')
+                clearCardBody();
+                // !!! Need to add a function to clear DOM here.
             }
             event.stopPropagation();
             initializeTaskDOM();
@@ -846,12 +848,7 @@ window.onload = function () {
             }
         }
     }
-    // IMPROVEMENTS:
-    // SEARCH BAR FOR TASK NAMES. [1]
-    // MORE RESPONSIVE WEB FACTORS [2]
-    // BETTER SAVE DATA STRUCTURE. [Doesn't work ATM /w repeating task names]
-    // Make it so that at every location search, camera zooms to a co - ordinate in between the search location and the user's current location.
-
-    // IMRPOVEMENTS: SOUNDCLOUD API {OPTIONAL} [Never because its a fucking todo app edward u high functioning autism retard]
+    // BUGS:
+    //
 
 }
