@@ -82,21 +82,24 @@
                                     <label for="task-name">Task Name:</label>
                                     <input type="text" class="form-control" id="task-name" aria-describedby="emailHelp"
                                         placeholder="I Want To...">
-                                    <div class="invalid-feedback">Task name has already been used.</div>
+                                    <div class="invalid-feedback">Task name has is empty or has already been used.</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="task-date">Task Date:</label>
                                     <input type="date" class="form-control" id="task-date" value="">
+                                    <div class="invalid-feedback">Task date is empty</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="task-time">Task Time:</label>
                                     <input type="time" class="form-control timepicker" id="task-time" value="">
+                                    <div class="invalid-feedback">Task time is empty</div>
                                 </div>
                                 <div class="form-group">
                                     <label for="task-location">Task Location:</label>
                                     <!-- Search Location Input -->
                                     <input type="text" class="form-control index-search controls" id="task-location"
                                         value="" placeholder="San Fransisco, California">
+                                    <!-- <div class="invalid-feedback">Task location has is empty or has already been used.</div> -->
                                 </div>
                                 <button type="button" class="btn btn-primary" id="searchLocationButton">Search</button>
                                 <!-- GOOGLE MAPS: -->

@@ -80,6 +80,13 @@ window.onload = function () {
         // Remove Any Pre-existing classes that might confuse the user.
         let taskNameInput = document.getElementById('task-name')
         taskNameInput.classList.remove('is-invalid')
+        let taskDateInput = document.getElementById('task-date');
+        taskDateInput.classList.remove('is-invalid')
+        let taskTimeInput = document.getElementById('task-time');
+        taskTimeInput.classList.remove('is-invalid')
+
+
+        let authorizeAdd = true;
 
         // Add New Task:
         let taskNameRef = document.getElementById('task-name').value;
@@ -88,19 +95,38 @@ window.onload = function () {
         let taskLocationInfo = localStorage.getItem('currentSearchLocation');
         let taskNotes = document.getElementById('task-notes').value;
 
-        // Run Check:
-        try {
-            checkRepeatingTaskNames(taskNameRef);
-            addTask(taskNameRef, taskDateRef, taskTimeRef, taskLocationInfo, taskNotes);
 
-            // Clear The Inputs For A Refreshed Future Use:
-            document.getElementById('task-name').value = '';
-            document.getElementById('task-location').value = '';
-            document.getElementById('task-notes').value = '';
-        }
-        catch (err) {
+        if (taskNameRef === '') {
             taskNameInput.classList.add('is-invalid')
+            authorizeAdd = false;
             event.stopPropagation();
+        }
+        if (taskDateRef === '') {
+            taskDateInput.classList.add('is-invalid')
+            authorizeAdd = false;
+            event.stopPropagation();
+        }
+        if (taskTimeRef === '') {
+            taskTimeInput.classList.add('is-invalid')
+            authorizeAdd = false;
+            event.stopPropagation();
+        }
+
+        if (authorizeAdd) {
+            // Run Check:
+            try {
+                checkRepeatingTaskNames(taskNameRef);
+                addTask(taskNameRef, taskDateRef, taskTimeRef, taskLocationInfo, taskNotes);
+
+                // Clear The Inputs For A Refreshed Future Use:
+                document.getElementById('task-name').value = '';
+                document.getElementById('task-location').value = '';
+                document.getElementById('task-notes').value = '';
+            }
+            catch (err) {
+                taskNameInput.classList.add('is-invalid')
+                event.stopPropagation();
+            }
         }
     })
 
@@ -494,13 +520,19 @@ window.onload = function () {
             localStorage.setItem('nameLists', JSON.stringify(listTasksRef));
         }
         // Remove Items from allTasks localstorage.
-        let allTasksRef = JSON.parse(localStorage.getItem('allTasks'));
-        for (let i = 0; i < allTasksRef.length; i++) {
-            if (allTasksRef[i].name == deleteTag.children[0].children[1].children[0].textContent) {
-                allTasksRef.splice(i, 1);
+        // Simultaneously Handles errors in the situation where the item doesn't exist on the local storge [a quick task]
+        try {
+            let allTasksRef = JSON.parse(localStorage.getItem('allTasks'));
+            for (let i = 0; i < allTasksRef.length; i++) {
+                if (allTasksRef[i].name == deleteTag.children[0].children[1].children[0].textContent) {
+                    allTasksRef.splice(i, 1);
+                }
             }
+            localStorage.setItem('allTasks', JSON.stringify(allTasksRef));
         }
-        localStorage.setItem('allTasks', JSON.stringify(allTasksRef));
+        catch (err) {
+            console.log(err.message)
+        }
     }
 
     function createNewTask(taskItemRef) {
