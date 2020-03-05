@@ -11,14 +11,14 @@ What you need to install this application
 ```
 npm install npm@latest -g
 ```
-### Installing todo-app
+### Installing todo-app:
 1. Clone the repo
 ```
 git clone https://github.com/3drdsh3in/todo-app.git
 ```
-### Install dev dependencies
+2. Install dev dependencies
 ```
-2. npm install
+npm install
 ```
 3. Start the server
 ```
