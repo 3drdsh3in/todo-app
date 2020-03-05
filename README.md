@@ -20,11 +20,7 @@ git clone https://github.com/3drdsh3in/todo-app.git
 ```
 npm install
 ```
-3. Start the server
-```
-npm run start
-```
-4. Explore
+3. Explore
 ```
 Enjoy! :)
 ```
